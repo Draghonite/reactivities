@@ -5,6 +5,7 @@
 - .NET Core
 - Entity Framework (Code-First)
 - React
+- Semantic UI React
 
 <!-- [Live Site](https://sidemotion-dating-app.herokuapp.com/) -->
 
