@@ -3,9 +3,12 @@
 
 - C#
 - .NET Core
+- WebAPI
 - Entity Framework (Code-First)
 - React
 - Semantic UI React
+- Clean Architecture
+- CQRS + Mediator Pattern
 
 <!-- [Live Site](https://sidemotion-dating-app.herokuapp.com/) -->
 
