@@ -86,6 +86,10 @@ export default class ActivityStore {
             await agent.Activities.update(activity);
             runInAction(() => {
                 this.activityRegistry.set(activity.id, activity);
+                if (this.selectedActivity?.id === activity.id) {
+                    this.selectActivity(activity.id);
+                }
+                this.closeForm();
             })
         } catch (error) {
             console.error(error);
@@ -103,6 +107,7 @@ export default class ActivityStore {
                 if (this.selectedActivity?.id === id) {
                     this.cancelSelectedActivity();
                 }
+                this.closeForm();
             })
         } catch (error) {
             console.error(error);

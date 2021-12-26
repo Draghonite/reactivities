@@ -6,9 +6,9 @@ import { useStore } from "../../../app/stores/store";
 
 function ActivityDetails() {
     const {activityStore} = useStore();
-    const {selectedActivity: activity, openForm, cancelSelectedActivity} = activityStore;
+    const {selectedActivity: activity, openForm, cancelSelectedActivity, loading} = activityStore;
 
-    if (!activity) return <LoadingComponent />;
+    if (!activity || loading) return <LoadingComponent />;
 
     return (
         <Card fluid>

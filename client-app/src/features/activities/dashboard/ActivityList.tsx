@@ -5,7 +5,7 @@ import { useStore } from '../../../app/stores/store';
 
 function ActivityList() {
     const {activityStore} = useStore();
-    const {loading, deleteActivity, selectedActivity: activity, activities} = activityStore;
+    const {loading, deleteActivity, activities} = activityStore;
     const [target, setTarget] = useState("");
 
     function handleActivityDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
