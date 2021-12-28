@@ -9,6 +9,7 @@
 - Semantic UI React
 - Clean Architecture
 - CQRS + Mediator Pattern
+- Formik
 
 <!-- [Live Site](https://sidemotion-dating-app.herokuapp.com/) -->
 
