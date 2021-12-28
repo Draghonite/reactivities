@@ -49,12 +49,7 @@ function ActivityForm() {
     function handleFormSubmit(activity: Activity) {
         if (!activity.id) {
             createActivity(activity).then((newActivity) => {
-                if (newActivity && newActivity.id) {
-                    history.push(`/activities/${newActivity.id}`) ;
-                } else {
-                    // TODO: some sort of error saving -- it's possible, notify the user 
-                    //   OR remove else (negative-path) if global error handling is eventually implemented
-                }
+                history.push(`/activities/${newActivity.id}`);
             });
         } else {
             updateActivity(activity).then(() => history.push(`/activities/${activity.id}`));
