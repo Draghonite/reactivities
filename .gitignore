@@ -454,6 +454,4 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 
 appsettings.json
-reactivities.db
-reactivities.db-shm
-reactivities.db-wal
+API/reactivities.db*
