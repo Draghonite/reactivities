@@ -2,7 +2,7 @@
 ## Built-up manually from the group up to showcase
 
 - C#
-- .NET Core
+- .NET Core 6
 - WebAPI
 - Entity Framework (Code-First)
 - React
