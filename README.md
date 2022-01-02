@@ -10,8 +10,11 @@
 - Clean Architecture
 - CQRS + Mediator Pattern
 - Formik
+- NWebsec.AspNetCore.Middleware
+- Sqlite
+- Postgresql
 
-<!-- [Live Site](https://sidemotion-dating-app.herokuapp.com/) -->
+[Live Site](https://sidemotion-reactivities.herokuapp.com/)
 
 Thanks to:
 * [Udemy: Complete guide to building an app with .Net Core and React](https://www.udemy.com/course/complete-guide-to-building-an-app-with-net-core-and-react)
