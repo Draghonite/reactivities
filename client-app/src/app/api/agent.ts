@@ -11,7 +11,7 @@ const delay = (ms: number) => {
     });
 };
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.request.use((config: any) => {
     const token = store.commonStore.token;
@@ -22,7 +22,9 @@ axios.interceptors.request.use((config: any) => {
 })
 
 axios.interceptors.response.use(async response => {
-    await delay(1000);
+    if (process.env.NODE_ENV == "development") {
+        await delay(1000);
+    }
     return response;
 }, (error: AxiosError) => {
     const {data, status, config} = error.response!;
