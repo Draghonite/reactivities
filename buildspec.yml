@@ -20,12 +20,11 @@ version: 0.2
   #build-matrix:
   #build-graph:
 phases:
-  #install:
+  install:
     #If you use the Ubuntu standard image 2.0 or later, you must specify runtime-versions.
     #If you specify runtime-versions and use an image other than Ubuntu standard image 2.0, the build fails.
-    #runtime-versions:
-      # name: version
-      # name: version
+    runtime-versions:
+      dotnet: 6.0
     #commands:
       # - command
       # - command
@@ -35,8 +34,7 @@ phases:
       # - command
   build:
     commands:
-      # - command
-      # - command
+      - dotnet build -c Release
   #post_build:
     #commands:
       # - command
@@ -49,9 +47,10 @@ phases:
     #base-directory: location
     #discard-paths: yes
     #file-format: JunitXml | CucumberJson
-#artifacts:
-  #files:
-    # - location
+artifacts:
+  ile-format: zip
+  files:
+    - '**/*'
     # - location
   #name: $(date +%Y-%m-%d)
   #discard-paths: yes
