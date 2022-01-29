@@ -19,7 +19,7 @@ namespace API.Extensions
             });
             services.AddCors(opt => {
                 opt.AddPolicy("CorsPolicy", policy => {
-                  policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+                  policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:5000");
                 });
             });
             services.AddMediatR(typeof(List.Handler).Assembly);
@@ -38,10 +38,8 @@ namespace API.Extensions
                 {
                     // Use connection string from file.
                     connStr = config.GetConnectionString("DefaultConnection");
-                }
-                else
-                {
-                    // Use connection string provided at runtime by Heroku.
+                } else {
+                    // Use connection string provided at runtime by hosting environment (AWS Fargate or Heroku).
                     var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
                     // Parse connection URL to connection string for Npgsql
