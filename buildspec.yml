@@ -23,7 +23,7 @@ phases:
     commands:
       - echo Build started on `date`
       # - dotnet build src/API/API.csproj
-      - dotnet build src/API/API.csproj -c Release -o /app/build
+      - dotnet build src/API/API.csproj -c Release -o /app/build 
       - echo Test started on `date`
       - dotnet test src/API/API.csproj
       # ECR
