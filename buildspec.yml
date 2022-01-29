@@ -2,6 +2,8 @@ version: 0.2
     
 phases:   
   install:
+    runtime-versions:
+      nodejs: 10
     # https://github.com/aws/aws-codebuild-docker-images/issues/497
     commands:
       - /usr/local/bin/dotnet-install.sh --channel LTS
