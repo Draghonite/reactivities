@@ -42,7 +42,7 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       # write image definitions file
       # - apt-get install jq -y
-      - ContainerName="ReactivitiesFargateContainer"
+      - ContainerName="ReactivitiesStagingContainer" # TODO: recreate w/o making it environment specific
       # - ImageURI=$(cat imageDetail.json | jq -r '.ImageURI') # only works if the source is ECR; using commit hash/latest
       - ImageURI=$REPOSITORY_URI:$IMAGE_TAG
       - echo $ImageURI
