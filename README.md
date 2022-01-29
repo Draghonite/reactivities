@@ -1,5 +1,5 @@
 #reactivities
-## Built-up manually from the group up to showcase
+## Built-up manually from the ground up to showcase
 
 - C#
 - .NET Core 6
