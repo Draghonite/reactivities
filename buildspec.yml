@@ -2,6 +2,7 @@ version: 0.2
     
 phases:   
   install:
+    # https://github.com/aws/aws-codebuild-docker-images/issues/497
     commands:
       - /usr/local/bin/dotnet-install.sh --channel LTS
    
@@ -13,7 +14,8 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - dotnet build src/API/API.csproj
+      # - dotnet build src/API/API.csproj
+      - dotnet build src/API/API.csproj -c Release -o /app/build
       - echo Test started on `date`
       - dotnet test src/API/API.csproj
       
@@ -21,7 +23,8 @@ phases:
     commands:
       - echo Publish started on `date`
       # https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/dotnet-linux-platform-bundle-app.html
-      - dotnet publish -c Release -r linux-x64 -o ./ src/API/API.csproj
+      # - dotnet publish -c Release -r linux-x64 -o ./ src/API/API.csproj
+      - dotnet publish src/API/API.csproj -r linux-x64 -c Release -o /app/publish --no-restore
       
 artifacts:
   files:
