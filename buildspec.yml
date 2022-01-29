@@ -48,7 +48,7 @@ phases:
     #discard-paths: yes
     #file-format: JunitXml | CucumberJson
 artifacts:
-  ile-format: zip
+  file-format: zip
   files:
     - '**/*'
     # - location
