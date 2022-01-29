@@ -22,7 +22,7 @@ phases:
   post_build:
     commands:
       - echo Publish started on `date`
-      # https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/dotnet-linux-platform-bundle-app.html 
+      # https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/dotnet-linux-platform-bundle-app.html
       - dotnet publish src/API/API.csproj -r linux-x64 -c Release -o /app/publish
       
 artifacts:
