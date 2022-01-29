@@ -48,7 +48,7 @@ phases:
       - echo $ImageURI
       - printf '[{"name":"CONTAINER_NAME","imageUri":"IMAGE_URI"}]' > imagedefinitions.json
       - sed -i -e "s|CONTAINER_NAME|$ContainerName|g" imagedefinitions.json
-      - sed -i -e "s|IMAGE_URI|ImageURI|g" imagedefinitions.json
+      - sed -i -e "s|IMAGE_URI|$ImageURI|g" imagedefinitions.json
       - cat imagedefinitions.json
       
 artifacts:
