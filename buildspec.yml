@@ -10,6 +10,14 @@ phases:
     commands:
       - echo Restore started on `date`
       - dotnet restore src/API/API.csproj
+      # ECR
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      # - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 904164939197.dkr.ecr.us-east-1.amazonaws.com
+      - REPOSITORY_URI=904164939197.dkr.ecr.us-east-1.amazonaws.com/reactivities
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
       
   build:
     commands:
@@ -18,13 +26,22 @@ phases:
       - dotnet build src/API/API.csproj -c Release -o /app/build
       - echo Test started on `date`
       - dotnet test src/API/API.csproj
+      # ECR
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
       
   post_build:
     commands:
       - echo Publish started on `date`
       # https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/dotnet-linux-platform-bundle-app.html
       - dotnet publish src/API/API.csproj -r linux-x64 -c Release -o /app/publish
+      # ECR
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
       
 artifacts:
   files:
     - /app/publish/*
+    - imagedefinitions.json
