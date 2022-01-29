@@ -1,9 +1,9 @@
 version: 0.2
     
-phases:
+phases:   
   install:
-    runtime-versions:
-      dotnet: 5.0
+    commands:
+      - /usr/local/bin/dotnet-install.sh --channel LTS
    
   pre_build:
     commands:
