@@ -22,6 +22,11 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - echo Building client app
+      - cd src/client-app
+      - npm run build
+      - cd ../..
+      - echo Building dotnet
       # - dotnet build src/API/API.csproj
       - dotnet build src/API/API.csproj -c Release -o /app/build 
       - echo Test started on `date`

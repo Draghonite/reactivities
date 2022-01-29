@@ -454,4 +454,5 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 
 appsettings.json
-API/reactivities.db*
+*/API/reactivities.db*
+*/API/wwwroot/*
