@@ -60,7 +60,7 @@ phases:
       - cat imagedefinitions.json
 
 reports:
-  TestResults
+  TestResults:
     file-format: VisualStudioTrx
     files:
       - '**/*'
