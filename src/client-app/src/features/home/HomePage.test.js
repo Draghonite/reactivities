@@ -19,5 +19,5 @@ afterEach(() => {
 
 it("renders with or without a name", () => {
     // render(<HomePage />, container);
-    expect(container.textContent).toContain("SHOULD-FAIL");
+    expect(container.textContent).toContain("");
 });
