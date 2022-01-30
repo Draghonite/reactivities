@@ -34,7 +34,7 @@ phases:
       - echo Building dotnet
       - dotnet build src/API/API.csproj -c Release -o /app/build 
       - echo Test started on `date`
-      - dotnet test src/API/API.csproj
+      - dotnet test -c Release --logger trx --results-directory ./testresults
       # ECR - build Docker image and tag appropriately
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:latest .
@@ -58,8 +58,16 @@ phases:
       - sed -i -e "s|CONTAINER_NAME|$ContainerName|g" imagedefinitions.json
       - sed -i -e "s|IMAGE_URI|$ImageURI|g" imagedefinitions.json
       - cat imagedefinitions.json
+
+reports:
+  TestResults
+    file-format: VisualStudioTrx
+    files:
+      - '**/*'
+    base-directory: './testresults'
       
 artifacts:
   files:
     - /app/publish/*
+    - /testreports/*
     - imagedefinitions.json
