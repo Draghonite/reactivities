@@ -25,6 +25,6 @@ FROM base AS final
 ENV ASPNETCORE_ENVIRONMENT "Production"
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY --from=migrations /source/migrations.sql /
+COPY --from=migrations /source/migrations.sql .
 EXPOSE 5000
 ENTRYPOINT [ "dotnet", "API.dll" ]
