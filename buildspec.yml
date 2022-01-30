@@ -28,7 +28,7 @@ phases:
       - cd src/client-app
       - npm install
       - npm run build
-      - npm test
+      - npm test -- --watchAll=false
       - cd ../..
       # DotNet - run tests and build server/api for release
       - echo Building dotnet
