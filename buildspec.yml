@@ -32,7 +32,7 @@ phases:
       - cd ../..
       # DotNet - run tests and build server/api for release
       - echo Building dotnet
-      - dotnet build src/API/API.csproj -c Release -o /app/build 
+      - dotnet build src/API/API.csproj -c Release -o /app/build
       - echo Test started on `date`
       - dotnet test -c Release --logger trx --results-directory ./testresults
       # ECR - build Docker image and tag appropriately
@@ -43,6 +43,7 @@ phases:
   post_build:
     commands:
       - echo Publish started on `date`
+      # TODO: reconsider this and whether it's necessary (isn't this already done in Dockerfile? might also explain the missing migrations script)
       # DotNet - publish release
       - dotnet publish src/API/API.csproj -r linux-x64 -c Release -o /app/publish
       # ECR - push docker image to ECR
