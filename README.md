@@ -11,7 +11,7 @@
 - CQRS + Mediator Pattern
 - Formik
 - Cloudinary image hosting service
-- NWebsec.AspNetCore.Middleware
+- NWebsec.AspNetCore.Middleware 
 - Sqlite
 - Postgresql
 - [SecurityHeaders.com security enhancements](https://securityheaders.com/?q=https%3A%2F%2Fsidemotion-reactivities.herokuapp.com%2F&followRedirects=on)
