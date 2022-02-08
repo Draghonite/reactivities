@@ -16,7 +16,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws --version
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-      - REPOSITORY_URI=904164939197.dkr.ecr.us-east-1.amazonaws.com/reactivities
+      # - REPOSITORY_URI=904164939197.dkr.ecr.us-east-1.amazonaws.com/reactivities
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
       
@@ -52,7 +52,7 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       # write image definitions file
       # - apt-get install jq -y
-      - ContainerName="ReactivitiesStagingContainer" # TODO: recreate w/o making it environment-specific (no Staging in title); consider making this parameterized
+      - ContainerName="ReactivitiesContainer" # TODO: recreate w/o making it environment-specific (no Staging in title); consider making this parameterized
       - ImageURI=$REPOSITORY_URI:$IMAGE_TAG
       - echo $ImageURI
       - printf '[{"name":"CONTAINER_NAME","imageUri":"IMAGE_URI"}]' > imagedefinitions.json
