@@ -16,7 +16,11 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws --version
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+<<<<<<< HEAD
       # - REPOSITORY_URI=904164939197.dkr.ecr.us-east-1.amazonaws.com/reactivities-repository
+=======
+      # - REPOSITORY_URI=904164939197.dkr.ecr.us-east-1.amazonaws.com/reactivities
+>>>>>>> fd0229ddad954fa4b41a09fbea8a80989f59df82
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
       
@@ -32,7 +36,7 @@ phases:
       - cd ../..
       # DotNet - run tests and build server/api for release
       - echo Building dotnet
-      - dotnet build src/API/API.csproj -c Release -o /app/build 
+      - dotnet build src/API/API.csproj -c Release -o /app/build  
       - echo Test started on `date`
       - dotnet test -c Release --logger trx --results-directory ./testresults
       # ECR - build Docker image and tag appropriately
@@ -43,6 +47,7 @@ phases:
   post_build:
     commands:
       - echo Publish started on `date`
+      # TODO: reconsider this and whether it's necessary (isn't this already done in Dockerfile? might also explain the missing migrations script)
       # DotNet - publish release
       - dotnet publish src/API/API.csproj -r linux-x64 -c Release -o /app/publish
       # ECR - push docker image to ECR
@@ -51,7 +56,7 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       # write image definitions file
       # - apt-get install jq -y
-      - ContainerName="ReactivitiesStagingContainer" # TODO: recreate w/o making it environment-specific (no Staging in title); consider making this parameterized
+      - ContainerName="ReactivitiesContainer" # TODO: recreate w/o making it environment-specific (no Staging in title); consider making this parameterized
       - ImageURI=$REPOSITORY_URI:$IMAGE_TAG
       - echo $ImageURI
       - printf '[{"name":"CONTAINER_NAME","imageUri":"IMAGE_URI"}]' > imagedefinitions.json

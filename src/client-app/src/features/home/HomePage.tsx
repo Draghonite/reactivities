@@ -14,7 +14,7 @@ function HomePage() {
             <Container text>
                 <Header as="h1" inverted>
                     <Image size="massive" src="/assets/logo.png" alt="logo" style={{marginBottom: 12}} />
-                    Reactivities v3
+                    Reactivities v6
                 </Header>
                 {userStore.isLoggedIn ? (
                     <Fragment>
