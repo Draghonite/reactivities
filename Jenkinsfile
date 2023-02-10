@@ -6,7 +6,7 @@ pipeline {
       steps {
         // sh 'node --version'
         echo 'build stage'
-        echo '$BUILD_NUMBER'
+        echo ${BUILD_NUMBER}
       }
     }
   }
