@@ -9,15 +9,17 @@ pipeline {
                 }
             }
             steps {
-                input message: 'Done validating? (Click "Proceed" to continue)'
-                sh '''
-                    cd src/client-app
-                    sonar-scanner \
-                        -Dsonar.host.url=http://172.20.0.4:9000 \
-                        -Dsonar.login=sqp_db6935970812fb6a1bcaae943b99430bf91b5dec \
-                        -Dsonar.projectKey=Reactivities-Client-App \
-                        -Dsonar.projectName=Reactivities-Client-App
-                '''
+                withSonarQubeEnv('SonarQubeScanner') {
+                    input message: 'Done validating? (Click "Proceed" to continue)'
+                    sh '''
+                        cd src/client-app
+                        sonar-scanner \
+                            -Dsonar.host.url=http://172.20.0.4:9000 \
+                            -Dsonar.login=sqp_db6935970812fb6a1bcaae943b99430bf91b5dec \
+                            -Dsonar.projectKey=Reactivities-Client-App \
+                            -Dsonar.projectName=Reactivities-Client-App
+                    '''
+                }
             }
         }
         stage("Quality Gate") {
