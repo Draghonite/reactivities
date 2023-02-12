@@ -19,7 +19,9 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo 'TODO: npm run test'
+                dir('src/client-app') {
+                    sh 'npm run test'
+                }
             }
         }
         stage('Quality Gate') {
