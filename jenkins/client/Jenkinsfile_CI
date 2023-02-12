@@ -49,7 +49,8 @@ pipeline {
         }
         stage('Package') {
             steps {
-                echo 'TODO: package the build output'
+                echo 'TODO: package the build output -- manual process below to temporarily pause'
+                input message: 'Done validating? (Click "Proceed" to continue)'
             }
         }
     }
