@@ -32,7 +32,7 @@ pipeline {
             steps {
                 dir('src/client-app') {
                     withSonarQubeEnv(installationName: 'SonarQubeScanner') {
-                        sh "${scannerHome}/bin/sonar-scanner -X"
+                        sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
             }
