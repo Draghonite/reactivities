@@ -33,7 +33,7 @@ pipeline {
                 dir('src/client-app') {
                     withSonarQubeEnv(installationName: 'SonarQubeScanner') {
                         sh '''
-                            ${JENKINS_HOME}/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarQubeScannerTool/bin/sonar-scanner -X \
+                            /var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarQubeScannerTool/bin/sonar-scanner -X \
                                 -Dsonar.host.url=http://sonarqube:9000 \
                                 -Dsonar.login=sqp_8f39b1ff1d27f3e14469ec63aa92c208cdd413db \
                                 -Dsonar.projectKey=Reactivities-Client-App \
