@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Quality Gate') {
             when {
-                expression { params.RUN_SONAR == 'true' }
+                expression { params.RUN_SONAR == 'Yes' }
             }
             environment {
                 scannerHome = tool 'SonarQubeScannerTool'
