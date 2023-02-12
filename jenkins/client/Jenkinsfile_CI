@@ -27,11 +27,11 @@ pipeline {
         }
         stage('Quality Gate') {
             environment {
-                scannerHome = tool 'SonarQubeScanner'
+                scannerHome = tool 'SonarQube Scanner 2.8'
             }
             steps {
                 dir('src/client-app') {
-                    withSonarQubeEnv(installationName: 'SonarQube') {
+                    withSonarQubeEnv(installationName: 'SonarQubeScanner') {
                         sh "${scannerHome}/bin/sonar-scanner -X"
                     }
                 }
