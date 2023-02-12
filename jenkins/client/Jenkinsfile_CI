@@ -22,7 +22,7 @@ pipeline {
                 sh '''
                     cd ./src/client-app
                     npm run test
-                    curl sonarqube:9000
+                    hostanme
                 '''
             }
         }
