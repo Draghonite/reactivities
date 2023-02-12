@@ -10,7 +10,6 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv('SonarQubeScanner') {
-                    input message: 'Done validating? (Click "Proceed" to continue)'
                     sh '''
                         cd src/client-app
                         sonar-scanner \
