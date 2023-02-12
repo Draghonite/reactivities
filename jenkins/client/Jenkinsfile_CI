@@ -19,10 +19,10 @@ pipeline {
         }
         stage('Test') {
             steps {
+                sh "echo ${env.NODE_NAME}"
                 sh '''
                     cd ./src/client-app
                     npm run test
-                    echo hostname
                 '''
             }
         }
