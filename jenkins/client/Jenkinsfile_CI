@@ -25,28 +25,18 @@ pipeline {
                     npm run test
                 '''
             }
-        }
-        stage('Quality Gate') {
+        }stage('Quality Gate') {
             when {
                 expression { params.RUN_SONAR == 'Yes' }
             }
-            environment {
-                scannerHome = tool 'SonarQubeScannerTool'
+            agent {
+                docker {
+                    image 'sonarsource/sonar-scanner-cli'
+                    args '-e SONAR_HOST_URL="http://sonarqube:9000" -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=Reactivities-Client-App" -e SONAR_LOGIN="sqp_db6935970812fb6a1bcaae943b99430bf91b5dec"'
+                }
             }
             steps {
-                dir('src/client-app') {
-                    withSonarQubeEnv('SonarQubeScanner') {
-                        echo 'TODO: check the quality of source code -- manual process below to temporarily pause'
-                        input message: 'Done validating? (Click "Proceed" to continue)'
-                        sh '''
-                            ${scannerHome}/bin/sonar-scanner \
-                                -Dsonar.host.url=http://sonarqube:9000 \
-                                -Dsonar.login=sqp_db6935970812fb6a1bcaae943b99430bf91b5dec \
-                                -Dsonar.projectKey=Reactivities-Client-App \
-                                -Dsonar.projectName=Reactivities-Client-App
-                        '''
-                    }
-                }
+                echo 'ls'
             }
         }
         stage('Package') {
