@@ -25,15 +25,25 @@ pipeline {
                 '''
             }
         }
-        docker.image('sonarsource/sonar-scanner-cli').inside {
-            stage('Sonarqube') {
-                sh '''
-                    sonar-scanner \
-                        -Dsonar.host.url=http://sonarqube:9000 \
-                        -Dsonar.login=sqp_db6935970812fb6a1bcaae943b99430bf91b5dec \
-                        -Dsonar.projectKey=Reactivities-Client-App \
-                        -Dsonar.projectName=Reactivities-Client-App
-                '''
+        stage('Quality Gate') {
+            when {
+                expression { params.RUN_SONAR == 'true' }
+            }
+            environment {
+                scannerHome = tool 'SonarQubeScannerTool'
+            }
+            steps {
+                dir('src/client-app') {
+                    withSonarQubeEnv('SonarQubeScanner') {
+                        sh '''
+                            ${scannerHome}/bin/sonar-scanner \
+                                -Dsonar.host.url=http://sonarqube:9000 \
+                                -Dsonar.login=sqp_db6935970812fb6a1bcaae943b99430bf91b5dec \
+                                -Dsonar.projectKey=Reactivities-Client-App \
+                                -Dsonar.projectName=Reactivities-Client-App
+                        '''
+                    }
+                }
             }
         }
         stage('Package') {
