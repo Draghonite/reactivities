@@ -25,12 +25,10 @@ pipeline {
                 '''
             }
         }
-        stage('Quality Gate') {
-            dir('src/client-app') {
-                def scannerHome = tool 'SonarScanner';
-                withSonarQubeEnv() {
-                  sh "${scannerHome}/bin/sonar-scanner"
-                }
+        stage('SonarQube Analysis') {
+            def scannerHome = tool 'SonarScanner';
+            withSonarQubeEnv() {
+                sh "${scannerHome}/bin/sonar-scanner"
             }
         }
         stage('Package') {
