@@ -31,9 +31,13 @@ pipeline {
             }
             steps {
                 dir('src/client-app') {
-                    withSonarQubeEnv(installationName: 'SonarQubeScanner') {
+                    withSonarQubeEnv('SonarQubeScanner') {
                         sh '''
-                            ${scannerHome}/bin/sonar-scanner --version
+                            ${scannerHome}/bin/sonar-scanner \
+                                -Dsonar.host.url=http://sonarqube:9000 \
+                                -Dsonar.login=sqp_db6935970812fb6a1bcaae943b99430bf91b5dec \
+                                -Dsonar.projectKey=Reactivities-Client-App \
+                                -Dsonar.projectName=Reactivities-Client-App
                         '''
                     }
                 }
