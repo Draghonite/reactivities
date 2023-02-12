@@ -5,7 +5,7 @@ pipeline {
         stage('build && SonarQube analysis') {
             agent {
                 docker {
-                    image 'sonarqube'
+                    image 'sonarsource/sonar-scanner-cli'
                     args '-p 9000:9000'
                 }
             }
