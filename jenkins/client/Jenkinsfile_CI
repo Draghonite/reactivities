@@ -36,6 +36,8 @@ pipeline {
             steps {
                 dir('src/client-app') {
                     withSonarQubeEnv('SonarQubeScanner') {
+                        echo 'TODO: check the quality of source code -- manual process below to temporarily pause'
+                        input message: 'Done validating? (Click "Proceed" to continue)'
                         sh '''
                             ${scannerHome}/bin/sonar-scanner \
                                 -Dsonar.host.url=http://sonarqube:9000 \
@@ -49,8 +51,7 @@ pipeline {
         }
         stage('Package') {
             steps {
-                echo 'TODO: package the build output -- manual process below to temporarily pause'
-                input message: 'Done validating? (Click "Proceed" to continue)'
+                echo 'TODO: package the build output'
             }
         }
     }
