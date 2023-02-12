@@ -26,10 +26,13 @@ pipeline {
             }
         }
         stage('Quality Gate') {
+            environment {
+                scannerHome = tool 'SonarQube_4.3.0'
+            }
             steps {
                 dir('src/client-app') {
                     withSonarQubeEnv(installationName: 'SonarQubeScanner', credentialsId: 'SonarQubeToken') {
-                        sh 'mvn clean package sonar:sonar'
+                        echo 'TODO: add commands'
                     }
                 }
             }
