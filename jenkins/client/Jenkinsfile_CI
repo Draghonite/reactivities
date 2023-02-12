@@ -28,10 +28,6 @@ pipeline {
         stage('Quality Gate') {
             steps {
                 dir('src/client-app') {
-                    def scannerHome = tool 'SonarScanner';
-                    //withSonarQubeEnv() {
-                    //    sh "${scannerHome}/bin/sonar-scanner"
-                    //}
                     withSonarQubeEnv(installationName: 'SonarQubeScanner', credentialsId: 'SonarQubeToken') {
                         sh 'mvn clean package sonar:sonar'
                     }
