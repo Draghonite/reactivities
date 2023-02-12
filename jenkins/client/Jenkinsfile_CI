@@ -22,7 +22,7 @@ pipeline {
                 sh '''
                     cd ./src/client-app
                     npm run test
-                    hostanme
+                    echo hostname
                 '''
             }
         }
