@@ -6,19 +6,18 @@ pipeline {
             agent {
                 docker {
                     image 'sonarsource/sonar-scanner-cli'
+                    args '--network jenkins'
                 }
             }
             steps {
-                dir('src/client-app') {
-                
-                    sh '''
-                        sonar-scanner \
-                            -Dsonar.host.url=http://sonarqube:9000 \
-                            -Dsonar.login=sqp_db6935970812fb6a1bcaae943b99430bf91b5dec \
-                            -Dsonar.projectKey=Reactivities-Client-App \
-                            -Dsonar.projectName=Reactivities-Client-App
-                    '''
-                }
+                sh '''
+                    cd src/client-app
+                    sonar-scanner \
+                        -Dsonar.host.url=http://sonarqube:9000 \
+                        -Dsonar.login=sqp_db6935970812fb6a1bcaae943b99430bf91b5dec \
+                        -Dsonar.projectKey=Reactivities-Client-App \
+                        -Dsonar.projectName=Reactivities-Client-App
+                '''
             }
         }
         stage("Quality Gate") {
