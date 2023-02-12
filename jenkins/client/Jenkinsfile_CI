@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Quality Gate') {
             environment {
-                scannerHome = tool 'SonarQube Scanner 2.8'
+                scannerHome = tool 'SonarQubeScannerTool'
             }
             steps {
                 dir('src/client-app') {
