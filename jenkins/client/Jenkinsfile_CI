@@ -7,7 +7,6 @@ pipeline {
     }
     environment {
         CI = 'true'
-        JENKINS_HOME = '/var/jenkins_home'
     }
     stages {
         stage('Build') {
@@ -27,16 +26,13 @@ pipeline {
             }
         }
         stage('Quality Gate') {
+            environment {
+                scannerHome = tool 'SonarQubeScanner'
+            }
             steps {
                 dir('src/client-app') {
-                    withSonarQubeEnv('SonarQubeScanner') {
-                        sh '''
-                            ${JENKINS_HOME}/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarQube_Scanner/bin/sonar-scanner \
-                                -Dsonar.host.url=http://localhost:9000 \
-                                -Dsonar.login=sqp_3550caa9bed2d92ff9521a09a695cfe493ab094b \
-                                -Dsonar.projectKey=Reactivities-Client-App \
-                                -Dsonar.projectName=Reactivities-Client-App
-                        '''
+                    withSonarQubeEnv(installationName: 'SonarQube') {
+                        sh "${scannerHome}/bin/sonar-scanner -X"
                     }
                 }
             }
