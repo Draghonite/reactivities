@@ -456,3 +456,5 @@ $RECYCLE.BIN/
 appsettings.json
 */API/reactivities.db*
 */API/wwwroot/*
+package-lock.json
+retire-output.json
