@@ -19,9 +19,10 @@ pipeline {
         }
         stage('Test') {
             steps {
-                dir('src/client-app') {
-                    sh 'npm run test'
-                }
+                sh '''
+                    cd ./src/client-app
+                    npm run test
+                '''
             }
         }
         stage('Quality Gate') {
