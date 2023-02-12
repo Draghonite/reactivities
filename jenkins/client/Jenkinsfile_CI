@@ -6,13 +6,18 @@ pipeline {
             agent {
                 docker {
                     image 'sonarsource/sonar-scanner-cli'
-                    args '-p 9000:9000'
                 }
             }
             steps {
-                withSonarQubeEnv('SonarQubeScanner') {
-                    echo 'TODO: check the quality of source code -- manual process below to temporarily pause'
-                    input message: 'Done validating? (Click "Proceed" to continue)'
+                dir('src/client-app') {
+                
+                    sh '''
+                        sonar-scanner \
+                            -Dsonar.host.url=http://sonarqube:9000 \
+                            -Dsonar.login=sqp_db6935970812fb6a1bcaae943b99430bf91b5dec \
+                            -Dsonar.projectKey=Reactivities-Client-App \
+                            -Dsonar.projectName=Reactivities-Client-App
+                    '''
                 }
             }
         }
