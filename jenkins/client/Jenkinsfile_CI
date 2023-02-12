@@ -25,7 +25,8 @@ pipeline {
                     npm run test
                 '''
             }
-        }stage('Quality Gate') {
+        }
+        stage('Quality Gate') {
             when {
                 expression { params.RUN_SONAR == 'Yes' }
             }
