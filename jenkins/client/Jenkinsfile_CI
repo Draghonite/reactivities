@@ -27,7 +27,12 @@ pipeline {
         }
         stage('Quality Gate') {
             steps {
-                echo 'TODO: interage quality gate (e.g. SonarQube)'
+                dir('src/client-app') {
+                    def scannerHome = tool 'SonarScanner';
+                    withSonarQubeEnv() {
+                      sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
             }
         }
         stage('Package') {
