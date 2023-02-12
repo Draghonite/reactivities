@@ -11,8 +11,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'cd ./src/client-app'
-                sh 'ls'
+                sh 'cd ./src/client-app && ls'
                 echo 'TODO: npm install'
             }
         }
