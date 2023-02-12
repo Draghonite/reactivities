@@ -6,10 +6,10 @@ pipeline {
             agent {
                 docker {
                     image 'sonarsource/sonar-scanner-cli'
-                    args '--network jenkins'
                 }
             }
             steps {
+                input message: 'Done validating? (Click "Proceed" to continue)'
                 sh '''
                     cd src/client-app
                     sonar-scanner \
