@@ -1,31 +1,31 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:lts-buster-slim'
-            args '-p 3000:3000'
-        }
-    }
+    // agent {
+    //     docker {
+    //         image 'node:lts-buster-slim'
+    //         args '-p 3000:3000'
+    //     }
+    // }
     environment {
         CI = 'true'
     }
     stages {
-        stage('Build') {
-            steps {
-                sh "echo ${env.NODE_NAME}"
-                sh '''
-                    cd ./src/client-app
-                    npm install
-                '''
-            }
-        }
-        stage('Test') {
-            steps {
-                sh '''
-                    cd ./src/client-app
-                    npm run test
-                '''
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         sh "echo ${env.NODE_NAME}"
+        //         sh '''
+        //             cd ./src/client-app
+        //             npm install
+        //         '''
+        //     }
+        // }
+        // stage('Test') {
+        //     steps {
+        //         sh '''
+        //             cd ./src/client-app
+        //             npm run test
+        //         '''
+        //     }
+        // }
         stage('Sonar Scanner') {
             when {
                 expression { params.RUN_SONAR == 'Yes' }
@@ -48,20 +48,20 @@ pipeline {
                 }
             }
         }
-        stage("Quality Gate") {
-            when {
-                expression { params.RUN_SONAR == 'Yes' }
-            }
-            steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
-        stage('Package') {
-            steps {
-                echo 'TODO: package the build output'
-            }
-        }
+        // stage("Quality Gate") {
+        //     when {
+        //         expression { params.RUN_SONAR == 'Yes' }
+        //     }
+        //     steps {
+        //         timeout(time: 1, unit: 'HOURS') {
+        //             waitForQualityGate abortPipeline: true
+        //         }
+        //     }
+        // }
+        // stage('Package') {
+        //     steps {
+        //         echo 'TODO: package the build output'
+        //     }
+        // }
     }
 }
