@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         CI = 'true'
-        SONAR_PROJECT_KEY=Reactivities-Client-App
+        SONAR_PROJECT_KEY='Reactivities-Client-App'
     }
     stages {
         stage('Build and Unit Test') {
