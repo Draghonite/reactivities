@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         CI = 'true'
+        SONAR_PROJECT_KEY=Reactivities-Client-App
     }
     stages {
         stage('Build and Unit Test') {
@@ -36,8 +37,7 @@ pipeline {
                         sonar-scanner \
                             -Dsonar.host.url=$SONAR_HOST_URL \
                             -Dsonar.login=$SONAR_AUTH_TOKEN \
-                            -Dsonar.projectKey=Reactivities-Client-App \
-                            -Dsonar.projectName=Reactivities-Client-App
+                            -Dsonar.projectKey=$SONAR_PROJECT_KEY
                     '''
                 }
             }
