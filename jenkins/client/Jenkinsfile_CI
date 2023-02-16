@@ -60,7 +60,7 @@ pipeline {
                 expression { RUN_PACKAGE == 'Yes' }
             }
             steps {
-                echo 'TODO: package and upload reactivities-npm-${$BUILD_ENV}-local'
+                echo "TODO: package and upload reactivities-npm-$BUILD_ENV-local"
             }
         }
     }
