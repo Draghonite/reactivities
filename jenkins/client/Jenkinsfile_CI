@@ -1,9 +1,11 @@
 pipeline {
     agent any
     environment {
-        CI = 'false' // TODO: set to true, false for now
+        CI = 'false' // TODO: set to true, false for now -- else builds fail due to client build warnings
         PACKAGE_NAME = 'reactivities_client'
+        // TODO: move to server-level environment config instead
         ARTIFACTORY_SERVER = 'http://172.20.0.5:8081/artifactory'
+        BUILD_PREFIX = '1.0'
     }
     stages {
         stage('Build and Unit Test') {
@@ -37,6 +39,7 @@ pipeline {
                 withSonarQubeEnv('SonarQubeScanner') {
                     sh '''
                         cd ./src/client-app
+                        // TODO: refactor into a reusable library function and inject into the pipeline
                         sonar-scanner \
                             -Dsonar.host.url=$SONAR_HOST_URL \
                             -Dsonar.login=$SONAR_AUTH_TOKEN \
@@ -66,14 +69,14 @@ pipeline {
                 }
             }
             steps {
-                echo "TODO: package and upload $PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER"
                 sh '''
                     cd ./src/client-app
                     npm run build
                     cd ../API/wwwroot/
                     tar -czvf $PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip .
                     apk add curl
-                    curl -i -u$ARTIFACTORY_USERNAME:$ARTIFACTORY_API_KEY -T ./$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip "$ARTIFACTORY_SERVER/libs-release-local/$PACKAGE_NAME-$BUILD_ENV/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip"
+                    // TODO: refactor into a reusable library function and inject into the pipeline
+                    curl -i -u$ARTIFACTORY_USERNAME:$ARTIFACTORY_API_KEY -T ./$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip "$ARTIFACTORY_SERVER/libs-release-local/$PACKAGE_NAME-$BUILD_ENV/$PACKAGE_NAME-$BUILD_ENV-$BUILD_PREFIX.$BUILD_NUMBER.zip"
                     rm $PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip
                 '''
             }
