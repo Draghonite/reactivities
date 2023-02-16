@@ -12,7 +12,6 @@ pipeline {
             agent {
                 docker {
                     image 'node:lts-buster-slim'
-                    args '-p 3000:3000'
                 }
             }
             steps {
@@ -60,8 +59,16 @@ pipeline {
             when {
                 expression { RUN_PACKAGE == 'Yes' }
             }
+            agent {
+                docker {
+                    image 'node:lts-buster-slim'
+                }
+            }
             steps {
                 echo "TODO: package and upload $PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER"
+                sh '''
+                    ls
+                '''
             }
         }
     }
