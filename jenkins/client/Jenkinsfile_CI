@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        CI = 'true'
+        CI = 'false' // TODO: set to true, false for now
         PACKAGE_NAME = 'reactivities_client'
     }
     stages {
