@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build and Unit Test') {
             when {
-                expression { RUN_BUILD == 'Yes' }
+                expression { RUN_BUILD == "Yes" }
             }
             agent {
                 docker {
@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Sonar Scanner') {
             when {
-                expression { RUN_SONAR == 'Yes' }
+                expression { RUN_SONAR == "Yes" }
             }
             agent {
                 docker {
@@ -47,7 +47,7 @@ pipeline {
         }
         stage("Quality Gate") {
             when {
-                expression { RUN_SONAR == 'Yes' }
+                expression { RUN_SONAR == "Yes" }
             }
             steps {
                 timeout(time: 1, unit: 'HOURS') {
@@ -57,7 +57,7 @@ pipeline {
         }
         stage('Package') {
             when {
-                expression { RUN_PACKAGE == 'Yes' }
+                expression { RUN_PACKAGE == "Yes" }
             }
             steps {
                 echo 'TODO: package and upload reactivities-npm-$BUILD_ENV-local'
