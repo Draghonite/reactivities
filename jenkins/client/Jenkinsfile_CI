@@ -4,7 +4,6 @@ pipeline {
         CI = 'false' // TODO: set to true, false for now
         PACKAGE_NAME = 'reactivities_client'
         ARTIFACTORY_SERVER = 'http://172.20.0.5:8081/artifactory'
-        ARTIFACTORY_REPO_PATH = 'libs-release-local/$PACKAGE_NAME/$BUILD_ENV'
     }
     stages {
         stage('Build and Unit Test') {
@@ -74,7 +73,7 @@ pipeline {
                     cd ../API/wwwroot/
                     tar -czvf $PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip .
                     apk add curl
-                    curl -i -u$ARTIFACTORY_USERNAME:$ARTIFACTORY_API_KEY -T ./$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip "$ARTIFACTORY_SERVER/$ARTIFACTORY_REPO_PATH/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip"
+                    curl -i -u$ARTIFACTORY_USERNAME:$ARTIFACTORY_API_KEY -T ./$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip "$ARTIFACTORY_SERVER/libs-release-local/$PACKAGE_NAME/$BUILD_ENV/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip"
                     rm $PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip
                 '''
             }
