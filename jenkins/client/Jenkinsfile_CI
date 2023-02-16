@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         CI = 'true'
+        PACKAGE_NAME = 'reactivities_client'
     }
     stages {
         stage('Build and Unit Test') {
@@ -60,7 +61,7 @@ pipeline {
                 expression { RUN_PACKAGE == 'Yes' }
             }
             steps {
-                echo "TODO: package and upload reactivities-npm-$BUILD_ENV-local"
+                echo "TODO: package and upload $PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER"
             }
         }
     }
