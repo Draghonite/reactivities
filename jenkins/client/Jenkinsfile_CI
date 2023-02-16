@@ -72,7 +72,7 @@ pipeline {
                     npm run build
                     cd ../API/wwwroot/
                     tar -czvf $PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip .
-                    mv reactivities_client-dev-102.zip /builds
+                    mv $PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip /builds
                 '''
                 input message="Done?"
             }
