@@ -66,11 +66,12 @@ pipeline {
             }
             steps {
                 echo "TODO: package and upload $PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER"
-                input message="Done?"
                 sh '''
                     cd ./src/client-app
                     npm run build
+                    tar -czvf $PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip ../API/wwwroot/
                 '''
+                input message="Done?"
             }
         }
     }
