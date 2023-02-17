@@ -6,7 +6,7 @@ pipeline {
         CI = 'false' // TODO: set to true, false for now -- else builds fail due to client build warnings
         PACKAGE_NAME = 'reactivities_client'
         // TODO: move to server-level environment config instead
-        // ARTIFACTORY_SERVER = 'http://172.20.0.5:8081/artifactory'
+        ARTIFACTORY_SERVER = 'http://172.20.0.5:8081/artifactory'
         BUILD_PREFIX = '1.0'
     }
     stages {
