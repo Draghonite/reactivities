@@ -86,6 +86,7 @@ pipeline {
                     PACKAGE_PATH: './src/API/wwwroot/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip',
                     PACKAGE_NAME: "${PACKAGE_NAME}", // TODO: can be read from environment?
                     BUILD_ENV: "${BUILD_ENV}", // TODO: can be optional (read from environment w/o explicitly passing it in?)
+                    BUILD_PREFIX: "${BUILD_PREFIX}",
                     BUILD_NUMBER: "${BUILD_NUMBER}" // TODO: can be optional?
                 )
                 sh '''
