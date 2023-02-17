@@ -72,8 +72,8 @@ pipeline {
             }
             steps {
                 sh '''
-                    rm -rf ./src/API/wwwroot/* && cd ./src/client-app && npm run build
-                    cd ../API/wwwroot/ && tar -czvf $PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip .
+                    cd ./src/client-app && npm run build
+                    tar -czvf ../$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip ../API/wwwroot/
                 '''
                 // TODO: refactor add and run curl into a reusable library function and inject into the pipeline and inject creds in that function
                 // withCredentials([usernameColonPassword(credentialsId: 'ARTIFACTORY-USER', variable: 'ARTIFACTORY_USER_PASS')]) {
