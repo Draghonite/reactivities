@@ -73,7 +73,7 @@ pipeline {
             steps {
                 sh '''
                     cd ./src/client-app && npm run build
-                    tar -czvf ../$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip ../API/wwwroot/
+                    cd ../API/wwwroot/ tar -czvf ../../../$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip .
                 '''
                 // TODO: refactor add and run curl into a reusable library function and inject into the pipeline and inject creds in that function
                 // withCredentials([usernameColonPassword(credentialsId: 'ARTIFACTORY-USER', variable: 'ARTIFACTORY_USER_PASS')]) {
@@ -89,7 +89,7 @@ pipeline {
                     BUILD_NUMBER: $BUILD_NUMBER // TODO: can be optional?
                 )
                 sh '''
-                    rm ./src/API/wwwroot/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip
+                    rm ./$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip
                 '''
             }
         }
