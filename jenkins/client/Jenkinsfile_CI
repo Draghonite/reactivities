@@ -5,30 +5,30 @@ pipeline {
     // descrition: 'Continuous Integration (Build) for the Reactivities client application.'
     // discardOldBuilds: strategy: Log Rotation, maxBuildsToKeep: 10
     // doNotAllowConcurrentBuilds: true
-    properties([
-        parameters([
-            choice(
-                name: 'BUILD_ENV',
-                choices: ['dev','qa'],
-                description: 'Environment for which to build and package the solution.',
-            ),
-            choice(
-                name: 'RUN_BUILD',
-                choices: ['Yes','No'],
-                description: 'Whether to perform the build',
-            ),
-            choice(
-                name: 'RUN_SONAR',
-                choices: ['Yes','No'],
-                description: 'Whether to run SonarQube Scanner and Quality Gate stages.',
-            ),
-            choice(
-                name: 'RUN_PACKAGE',
-                choices: ['Yes','No'],
-                description: 'Whether to package the artifact(s).',
-            )
-        ])
-    ])
+    // properties([
+    //     parameters([
+    //         choice(
+    //             name: 'BUILD_ENV',
+    //             choices: ['dev','qa'],
+    //             description: 'Environment for which to build and package the solution.',
+    //         ),
+    //         choice(
+    //             name: 'RUN_BUILD',
+    //             choices: ['Yes','No'],
+    //             description: 'Whether to perform the build',
+    //         ),
+    //         choice(
+    //             name: 'RUN_SONAR',
+    //             choices: ['Yes','No'],
+    //             description: 'Whether to run SonarQube Scanner and Quality Gate stages.',
+    //         ),
+    //         choice(
+    //             name: 'RUN_PACKAGE',
+    //             choices: ['Yes','No'],
+    //             description: 'Whether to package the artifact(s).',
+    //         )
+    //     ])
+    // ])
     environment {
         CI = 'false' // TODO: set to true, false for now -- else builds fail due to client build warnings
         PACKAGE_NAME = 'reactivities_client'
