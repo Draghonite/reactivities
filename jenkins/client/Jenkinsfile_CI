@@ -32,9 +32,6 @@ pipeline {
     environment {
         CI = 'false' // TODO: set to true, false for now -- else builds fail due to client build warnings
         PACKAGE_NAME = 'reactivities_client'
-        // TODO: move to server-level environment config instead
-        // ARTIFACTORY_CREDS_ID = 'ARTIFACTORY-USER'
-        // ARTIFACTORY_SERVER = 'http://172.20.0.5:8081/artifactory' // set in global env vars
         PACKAGE_REPO_PATH = 'libs-release-local'
         BUILD_PREFIX = '1.0'
     }
@@ -101,13 +98,14 @@ pipeline {
             }
             steps {
                 sh '''
+                    mkdir -p /builds
                     cd ./src/client-app && npm run build && cd ../..
-                    cd ./src/API/wwwroot/ && tar -czvf ../../../$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip . && cd ../../..
+                    cd ./src/API/wwwroot/ && tar -czvf /builds/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip .
                 '''
                 pushArtifactory([
                     ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
                     ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}",
-                    PACKAGE_PATH: "./${PACKAGE_NAME}-${BUILD_ENV}-${BUILD_NUMBER}.zip",
+                    PACKAGE_PATH: "/builds/${PACKAGE_NAME}-${BUILD_ENV}-${BUILD_NUMBER}.zip",
                     PACKAGE_NAME: "${PACKAGE_NAME}",
                     BUILD_ENV: "${BUILD_ENV}",
                     BUILD_PREFIX: "${BUILD_PREFIX}",
@@ -115,7 +113,7 @@ pipeline {
                     REPO: "${PACKAGE_REPO_PATH}"
                 ])
                 sh '''
-                    rm ./$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip
+                    rm /builds/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip
                 '''
             }
         }
