@@ -34,7 +34,7 @@ pipeline {
         SONAR_PROJECT_KEY = 'Reactivities-Client-App'
         SONAR_PROJECT_BASE_PATH = './src/client-app'
         PACKAGE_NAME = 'reactivities_client'
-        PACKAGE_REPO_PATH = 'libs-release-local/f1/f2'
+        PACKAGE_REPO_PATH = 'libs-release-local'
         BUILD_PREFIX = '1.0'
         BUILDS_PATH = '/builds'
     }
