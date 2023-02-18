@@ -113,9 +113,7 @@ pipeline {
                     BUILD_NUMBER: "${BUILD_NUMBER}",
                     REPO: "${PACKAGE_REPO_PATH}"
                 ])
-                sh '''
-                    rm -rf $BUILDS_PATH
-                '''
+                cleanDirectory([ DIRECTORY: "${BUILDS_PATH}" ])
             }
         }
     }
