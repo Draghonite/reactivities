@@ -34,7 +34,7 @@ pipeline {
         PACKAGE_NAME = 'reactivities_client'
         // TODO: move to server-level environment config instead
         ARTIFACTORY_CREDS_ID = 'ARTIFACTORY-USER'
-        ARTIFACTORY_SERVER = 'http://172.20.0.5:8081/artifactory' // set in global env vars
+        // ARTIFACTORY_SERVER = 'http://172.20.0.5:8081/artifactory' // set in global env vars
         PACKAGE_REPO_PATH = 'libs-release-local'
         BUILD_PREFIX = '1.0'
     }
