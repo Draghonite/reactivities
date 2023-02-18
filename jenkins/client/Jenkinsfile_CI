@@ -36,7 +36,8 @@ pipeline {
         PACKAGE_NAME = 'reactivities_client'
         PACKAGE_REPO_PATH = 'libs-release-local'
         BUILD_PREFIX = '1.0'
-        BUILDS_PATH = '/builds'
+        BUILDS_PATH = '/builds',
+        SONAR_SERVER_ID = 'SonarQubeScanner'
     }
     stages {
         stage('Build and Unit Test') {
@@ -67,9 +68,11 @@ pipeline {
                 }
             }
             steps {
-                withSonarQubeEnv('SonarQubeScanner') {
-                    sh "cd $SONAR_PROJECT_BASE_PATH && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.projectKey=$SONAR_PROJECT_KEY"
-                }
+                sonarScan([
+                    SONAR_SERVER_ID: $SONAR_SERVER_ID,
+                    SONAR_PROJECT_BASE_PATH: $SONAR_PROJECT_BASE_PATH,
+                    SONAR_PROJECT_KEY: $SONAR_PROJECT_KEY
+                ])
             }
         }
         stage("Quality Gate") {
