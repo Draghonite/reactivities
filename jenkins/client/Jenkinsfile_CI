@@ -32,7 +32,7 @@ pipeline {
     environment {
         CI = 'false' // TODO: set to true, false for now -- else builds fail due to client build warnings
         PACKAGE_NAME = 'reactivities_client'
-        PACKAGE_REPO_PATH = 'libs-release-local'
+        PACKAGE_REPO_PATH = 'libs-release-local/f1/f2'
         BUILD_PREFIX = '1.0'
         BUILDS_PATH = '/builds'
     }
