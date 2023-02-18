@@ -36,7 +36,7 @@ pipeline {
         PACKAGE_NAME = 'reactivities_client'
         PACKAGE_REPO_PATH = 'libs-release-local'
         BUILD_PREFIX = '1.0'
-        BUILDS_PATH = '/builds',
+        BUILDS_PATH = '/builds'
         SONAR_SERVER_ID = 'SonarQubeScanner'
     }
     stages {
