@@ -31,6 +31,8 @@ pipeline {
     // ])
     environment {
         CI = 'false' // TODO: set to true, false for now -- else builds fail due to client build warnings
+        SONAR_PROJECT_KEY = 'Reactivities-Client-App'
+        SONAR_PROJECT_BASE_PATH = './src/client-app'
         PACKAGE_NAME = 'reactivities_client'
         PACKAGE_REPO_PATH = 'libs-release-local/f1/f2'
         BUILD_PREFIX = '1.0'
@@ -66,15 +68,7 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv('SonarQubeScanner') {
-                    sh '''
-                        cd ./src/client-app
-                        // TODO: refactor into a reusable library function and inject into the pipeline
-                        sonar-scanner \
-                            -Dsonar.host.url=$SONAR_HOST_URL \
-                            -Dsonar.login=$SONAR_AUTH_TOKEN \
-                            -Dsonar.projectKey=Reactivities-Client-App \
-                            -Dsonar.projectName=Reactivities-Client-App
-                    '''
+                    sh "cd $SONAR_PROJECT_BASE_PATH && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.projectKey=$SONAR_PROJECT_KEY"
                 }
             }
         }
