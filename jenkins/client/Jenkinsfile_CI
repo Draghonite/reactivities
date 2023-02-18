@@ -83,7 +83,7 @@ pipeline {
                 // }
                 pushArtifactory(ARTIFACTORY_CREDS_ID: 'ARTIFACTORY-USER',
                     ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}", // TODO: see if can be removed and read directly within library but be set here (plus be set in global/system env)
-                    PACKAGE_PATH: "./src/API/wwwroot/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip",
+                    PACKAGE_PATH: "./src/API/wwwroot/${PACKAGE_NAME}-${BUILD_ENV}-${BUILD_NUMBER}.zip",
                     PACKAGE_NAME: "${PACKAGE_NAME}", // TODO: can be read from environment?
                     BUILD_ENV: "${BUILD_ENV}", // TODO: can be optional (read from environment w/o explicitly passing it in?)
                     BUILD_PREFIX: "${BUILD_PREFIX}",
