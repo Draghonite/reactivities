@@ -90,7 +90,7 @@ pipeline {
                 //     BUILD_NUMBER: "${BUILD_NUMBER}", // TODO: can be optional?
                 //     REPO: "libs-release-local"
                 // )
-                pushArtifactory()
+                pushArtifactory(ARTIFACTORY_CREDS_ID: 'ARTIFACTORY-USER')
                 sh '''
                     rm ./$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip
                 '''
