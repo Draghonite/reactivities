@@ -1,14 +1,49 @@
+@Library("jenkins-library") _
+
 pipeline {
     agent any
+    // descrition: 'Continuous Integration (Build) for the Reactivities client application.'
+    // discardOldBuilds: strategy: Log Rotation, maxBuildsToKeep: 10
+    // doNotAllowConcurrentBuilds: true
+    // properties([
+    //     parameters([
+    //         choice(
+    //             name: 'BUILD_ENV',
+    //             choices: ['dev','qa'],
+    //             description: 'Environment for which to build and package the solution.',
+    //         ),
+    //         choice(
+    //             name: 'RUN_BUILD',
+    //             choices: ['Yes','No'],
+    //             description: 'Whether to perform the build',
+    //         ),
+    //         choice(
+    //             name: 'RUN_SONAR',
+    //             choices: ['Yes','No'],
+    //             description: 'Whether to run SonarQube Scanner and Quality Gate stages.',
+    //         ),
+    //         choice(
+    //             name: 'RUN_PACKAGE',
+    //             choices: ['Yes','No'],
+    //             description: 'Whether to package the artifact(s).',
+    //         )
+    //     ])
+    // ])
     environment {
-        CI = 'true'
+        CI = 'false' // TODO: set to true, false for now -- else builds fail due to client build warnings
+        PACKAGE_NAME = 'reactivities_client'
+        PACKAGE_REPO_PATH = 'libs-release-local/f1/f2'
+        BUILD_PREFIX = '1.0'
+        BUILDS_PATH = '/builds'
     }
     stages {
         stage('Build and Unit Test') {
+            when {
+                expression { RUN_BUILD == 'Yes' }
+            }
             agent {
                 docker {
-                    image 'node:lts-buster-slim'
-                    args '-p 3000:3000'
+                    image 'node:16-alpine'
                 }
             }
             steps {
@@ -22,7 +57,7 @@ pipeline {
         }
         stage('Sonar Scanner') {
             when {
-                expression { params.RUN_SONAR == 'Yes' }
+                expression { RUN_SONAR == 'Yes' }
             }
             agent {
                 docker {
@@ -33,6 +68,7 @@ pipeline {
                 withSonarQubeEnv('SonarQubeScanner') {
                     sh '''
                         cd ./src/client-app
+                        // TODO: refactor into a reusable library function and inject into the pipeline
                         sonar-scanner \
                             -Dsonar.host.url=$SONAR_HOST_URL \
                             -Dsonar.login=$SONAR_AUTH_TOKEN \
@@ -44,7 +80,7 @@ pipeline {
         }
         stage("Quality Gate") {
             when {
-                expression { params.RUN_SONAR == 'Yes' }
+                expression { RUN_SONAR == 'Yes' }
             }
             steps {
                 timeout(time: 1, unit: 'HOURS') {
@@ -53,8 +89,33 @@ pipeline {
             }
         }
         stage('Package') {
+            when {
+                expression { RUN_PACKAGE == 'Yes' }
+            }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                }
+            }
             steps {
-                echo 'TODO: package the build output'
+                sh '''
+                    mkdir -p $BUILDS_PATH
+                    cd ./src/client-app && npm run build && cd ../..
+                    cd ./src/API/wwwroot/ && tar -czvf $BUILDS_PATH/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip .
+                '''
+                pushArtifactory([
+                    ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
+                    ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}",
+                    PACKAGE_PATH: "$BUILDS_PATH/${PACKAGE_NAME}-${BUILD_ENV}-${BUILD_NUMBER}.zip",
+                    PACKAGE_NAME: "${PACKAGE_NAME}",
+                    BUILD_ENV: "${BUILD_ENV}",
+                    BUILD_PREFIX: "${BUILD_PREFIX}",
+                    BUILD_NUMBER: "${BUILD_NUMBER}",
+                    REPO: "${PACKAGE_REPO_PATH}"
+                ])
+                sh '''
+                    rm -rf $BUILDS_PATH
+                '''
             }
         }
     }
