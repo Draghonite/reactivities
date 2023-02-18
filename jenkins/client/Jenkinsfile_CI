@@ -103,7 +103,7 @@ pipeline {
                     cd ./src/client-app && npm run build && cd ../..
                     cd ./src/API/wwwroot/ && tar -czvf $BUILDS_PATH/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip .
                 '''
-                pushArtifactory([
+                archiveArtifact([
                     ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
                     ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}",
                     PACKAGE_PATH: "$BUILDS_PATH/${PACKAGE_NAME}-${BUILD_ENV}-${BUILD_NUMBER}.zip",
