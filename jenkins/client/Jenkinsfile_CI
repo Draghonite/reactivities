@@ -34,6 +34,7 @@ pipeline {
         PACKAGE_NAME = 'reactivities_client'
         PACKAGE_REPO_PATH = 'libs-release-local'
         BUILD_PREFIX = '1.0'
+        BUILD_PATH = '/builds'
     }
     stages {
         stage('Build and Unit Test') {
@@ -98,14 +99,14 @@ pipeline {
             }
             steps {
                 sh '''
-                    mkdir -p /builds
+                    mkdir -p $BUILD_PATH
                     cd ./src/client-app && npm run build && cd ../..
-                    cd ./src/API/wwwroot/ && tar -czvf /builds/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip .
+                    cd ./src/API/wwwroot/ && tar -czvf $BUILD_PATH/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip .
                 '''
                 pushArtifactory([
                     ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
                     ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}",
-                    PACKAGE_PATH: "/builds/${PACKAGE_NAME}-${BUILD_ENV}-${BUILD_NUMBER}.zip",
+                    PACKAGE_PATH: "${BUILD_PATH}/${PACKAGE_NAME}-${BUILD_ENV}-${BUILD_NUMBER}.zip",
                     PACKAGE_NAME: "${PACKAGE_NAME}",
                     BUILD_ENV: "${BUILD_ENV}",
                     BUILD_PREFIX: "${BUILD_PREFIX}",
@@ -113,7 +114,7 @@ pipeline {
                     REPO: "${PACKAGE_REPO_PATH}"
                 ])
                 sh '''
-                    rm /builds/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip
+                    rm $BUILD_PATH/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip
                 '''
             }
         }
