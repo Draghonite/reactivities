@@ -7,6 +7,7 @@ pipeline {
     // descrition: 'Continuous Delivery for the Reactivities client application.'
     // discardOldBuilds: strategy: Log Rotation, maxBuildsToKeep: 10
     // doNotAllowConcurrentBuilds: true
+    // server env vars: ARTIFACTORY_CREDS_ID, ARTIFACTORY_CREDS_ID
     parameters {
         choice(
             name: 'DEPLOY_ENV',
@@ -27,9 +28,19 @@ pipeline {
         PACKAGE_REPO_PATH = "${APP_NAME}/client/${BUILD_ENV}/${PACKAGE_NAME}"
     }
     stages {
-        stage('Stage 1') {
+        stage('Download Artifact') {
+            when {
+                expression { RUN_PACKAGE_DOWNLOAD == 'Yes' }
+            }
             steps {
-                sh "echo 'TODO: build out CD flow'"
+                sh "mkdir -p ${PACKAGES_PATH}"
+                downloadArtifact([
+                    ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
+                    ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}",
+                    PACKAGES_PATH: "${PACKAGES_PATH}",
+                    PACKAGE_REPO_PATH: "${PACKAGE_REPO_PATH}"
+                ])
+                input message: 'Are we done yet?'
             }
         }
     }
