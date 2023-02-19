@@ -93,7 +93,7 @@ pipeline {
                     image 'node:16-alpine'
                 }
             }
-            steps {x
+            steps {
                 sh '''
                     mkdir -p $BUILDS_PATH
                     cd ./src/client-app && npm run build && cd ../..
