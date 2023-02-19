@@ -1,18 +1,16 @@
 pipeline {
     agent any
-    properties([
-        parameters([
-            choice(
-                name: 'DEPLOY_ENV',
-                choices: ['dev','qa','prod'],
-                description: 'Environment for which to deploy.',
-            ),
-            choice(
-                name: 'RUN_PACKAGE_DOWNLOAD',
-                choices: ['Yes','No'],
-                description: 'Whether to download the artifact(s).',
-            )
-        ])
+    parameters([
+        choice(
+            name: 'DEPLOY_ENV',
+            choices: ['dev','qa','prod'],
+            description: 'Environment for which to deploy.',
+        ),
+        choice(
+            name: 'RUN_PACKAGE_DOWNLOAD',
+            choices: ['Yes','No'],
+            description: 'Whether to download the artifact(s).',
+        )
     ])
     environment {
         APP_NAME = 'reactivities'
