@@ -38,7 +38,7 @@ pipeline {
         BUILDS_PATH = '/builds'
         BUILD_PREFIX = '1.0'
         PACKAGE_NAME = "reactivities-client-${BUILD_ENV}-${BUILD_PREFIX}.${BUILD_NUMBER}.zip"
-        PACKAGE_REPO_PATH = "reactivities-client/${BUILD_ENV}/${PACKAGE_NAME}"
+        PACKAGE_REPO_PATH = "reactivities/client/${BUILD_ENV}/${PACKAGE_NAME}"
         PACKAGE_BUILD_PATH = "${BUILDS_PATH}/${PACKAGE_NAME}"
     }
     stages {
