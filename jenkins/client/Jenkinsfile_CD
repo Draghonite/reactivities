@@ -23,7 +23,9 @@ pipeline {
     }
     stages {
         stage('Stage 1') {
-            sh "TODO: build out CD flow"
+            steps {
+                sh "TODO: build out CD flow"
+            }
         }
     }
 }
