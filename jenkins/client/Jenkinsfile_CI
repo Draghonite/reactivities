@@ -32,14 +32,13 @@ pipeline {
     }
     environment {
         CI = 'false' // TODO: set to true, false for now -- else builds fail due to client build warnings
-        APP_NAME = 'reactivities'
         SONAR_PROJECT_KEY = 'Reactivities-Client-App'
         SONAR_PROJECT_BASE_PATH = './src/client-app'
         SONAR_SERVER_ID = 'SonarQubeScanner'
         BUILDS_PATH = '/builds'
         PACKAGE_BUILD_PATH = "${BUILDS_PATH}/${PACKAGE_NAME}"
-        PACKAGE_NAME = "${APP_NAME}-client-${BUILD_ENV}-1.0.${BUILD_NUMBER}.zip"
-        PACKAGE_REPO_PATH = "${APP_NAME}/client/${BUILD_ENV}/${PACKAGE_NAME}"
+        PACKAGE_NAME = "draghonite-reactivities_client-1.0.${BUILD_NUMBER}-${BUILD_ENV}.zip"
+        PACKAGE_REPO_PATH = "draghonite/reactivities_client/1.0.${BUILD_NUMBER}/${BUILD_ENV}/${PACKAGE_NAME}"
     }
     stages {
         stage('Build and Unit Test') {
