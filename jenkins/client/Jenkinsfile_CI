@@ -80,9 +80,7 @@ pipeline {
                 expression { RUN_SONAR == 'Yes' }
             }
             steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true
-                }
+                awaitQualityGate()
             }
         }
         stage('Package') {
