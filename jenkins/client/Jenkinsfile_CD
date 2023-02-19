@@ -22,7 +22,7 @@ pipeline {
         PACKAGE_REPO_PATH = "${APP_NAME}/client/${BUILD_ENV}/${PACKAGE_NAME}"
     }
     stages {
-        stage {
+        stage('Stage 1') {
             sh "TODO: build out CD flow"
         }
     }
