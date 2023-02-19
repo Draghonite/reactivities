@@ -37,7 +37,7 @@ pipeline {
         SONAR_SERVER_ID = 'SonarQubeScanner'
         BUILDS_PATH = '/builds'
         BUILD_PREFIX = '1.0'
-        PACKAGE_NAME = "reactivities-client-${BUILD_ENV}-${BUILD_PREFIX}.${BUILD_NUMBER}.zip"
+        PACKAGE_NAME = "reactivities-client-${BUILD_ENV}-${BUILD_PREFIX}.${BUILD_NUMBER}.tar.zip"
         PACKAGE_REPO_PATH = "reactivities/client/${BUILD_ENV}/${PACKAGE_NAME}"
         PACKAGE_BUILD_PATH = "${BUILDS_PATH}/${PACKAGE_NAME}"
     }
@@ -97,7 +97,7 @@ pipeline {
                 sh '''
                     mkdir -p $BUILDS_PATH
                     cd ./src/client-app && npm run build && cd ../..
-                    cd ./src/API/wwwroot/ && tar -cZvf $PACKAGE_BUILD_PATH .
+                    cd ./src/API/wwwroot/ && tar -czvf $PACKAGE_BUILD_PATH .
                 '''
                 archiveArtifact([
                     ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
