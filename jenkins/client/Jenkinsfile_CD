@@ -19,12 +19,16 @@ pipeline {
             choices: ['Yes','No'],
             description: 'Whether to download the artifact(s).',
         )
+        string(
+            name: 'CI_BUILD_NUMBER',
+            description: 'Version of the package to deploy.  Same as the prefix + CI build number (e.g. "1.0.XXX").'
+        )
     }
     environment {
         APP_NAME = 'reactivities'
         PACKAGES_PATH = '/packages'
         PACKAGE_PATH = "${PACKAGES_PATH}/${PACKAGE_NAME}"
-        PACKAGE_NAME = "${APP_NAME}-client-${BUILD_ENV}-1.0.${BUILD_NUMBER}.zip"
+        PACKAGE_NAME = "${APP_NAME}-client-${BUILD_ENV}-1.0.${CI_BUILD_NUMBER}.zip"
         PACKAGE_REPO_PATH = "${APP_NAME}/client/${BUILD_ENV}/${PACKAGE_NAME}"
     }
     stages {
