@@ -97,9 +97,8 @@ pipeline {
                 sh '''
                     mkdir -p $BUILDS_PATH
                     cd ./src/client-app && npm run build && cd ../..
-                    cd ./src/API/wwwroot/ && tar -czvf $PACKAGE_BUILD_PATH .
+                    cd ./src/API/wwwroot/ && GZIP=-n tar -czvf $PACKAGE_BUILD_PATH .
                 '''
-                input message="Testing done?"
                 archiveArtifact([
                     ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
                     ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}",
