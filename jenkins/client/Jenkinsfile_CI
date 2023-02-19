@@ -93,11 +93,11 @@ pipeline {
                     image 'node:16-alpine'
                 }
             }
-            steps {
+            steps {x
                 sh '''
                     mkdir -p $BUILDS_PATH
                     cd ./src/client-app && npm run build && cd ../..
-                    cd ./src/API/wwwroot/ && GZIP=-n tar -czvf $PACKAGE_BUILD_PATH .
+                    cd ./src/API/wwwroot/ && tar -cZvf $PACKAGE_BUILD_PATH .
                 '''
                 archiveArtifact([
                     ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
