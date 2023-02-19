@@ -37,8 +37,8 @@ pipeline {
         SONAR_PROJECT_BASE_PATH = './src/client-app'
         SONAR_SERVER_ID = 'SonarQubeScanner'
         BUILDS_PATH = '/builds'
-        PACKAGE_NAME = "${APP_NAME}-client-${BUILD_ENV}-1.0.${BUILD_NUMBER}.zip"
         PACKAGE_BUILD_PATH = "${BUILDS_PATH}/${PACKAGE_NAME}"
+        PACKAGE_NAME = "${APP_NAME}-client-${BUILD_ENV}-1.0.${BUILD_NUMBER}.zip"
         PACKAGE_REPO_PATH = "${APP_NAME}/client/${BUILD_ENV}/${PACKAGE_NAME}"
     }
     stages {

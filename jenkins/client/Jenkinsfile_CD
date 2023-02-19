@@ -1,3 +1,29 @@
 pipeline {
     agent any
+    properties([
+        parameters([
+            choice(
+                name: 'DEPLOY_ENV',
+                choices: ['dev','qa','prod'],
+                description: 'Environment for which to deploy.',
+            ),
+            choice(
+                name: 'RUN_PACKAGE_DOWNLOAD',
+                choices: ['Yes','No'],
+                description: 'Whether to download the artifact(s).',
+            )
+        ])
+    ])
+    environment {
+        APP_NAME = 'reactivities'
+        PACKAGES_PATH = '/packages'
+        PACKAGE_PATH = "${PACKAGES_PATH}/${PACKAGE_NAME}"
+        PACKAGE_NAME = "${APP_NAME}-client-${BUILD_ENV}-1.0.${BUILD_NUMBER}.zip"
+        PACKAGE_REPO_PATH = "${APP_NAME}/client/${BUILD_ENV}/${PACKAGE_NAME}"
+    }
+    stages {
+        stage {
+            sh "TODO: build out CD flow"
+        }
+    }
 }
