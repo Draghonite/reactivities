@@ -28,8 +28,8 @@ pipeline {
         APP_NAME = 'reactivities'
         PACKAGES_PATH = '/packages'
         // TODO: ensure if prod is selected, use 'qa' instead -- add a way to translate between DEPLOY_ENV and actual BUILD_ENV
-        PACKAGE_NAME = "draghonite-reactivities_client-1.0.${CI_BUILD_NUMBER}-${DEPLOY_ENV}.zip"
-        PACKAGE_REPO_PATH = "draghonite/reactivities_client/1.0.${CI_BUILD_NUMBER}/${DEPLOY_ENV}/${PACKAGE_NAME}"
+        PACKAGE_NAME = "draghonite-reactivities_client-${CI_BUILD_NUMBER}-${DEPLOY_ENV}.zip"
+        PACKAGE_REPO_PATH = "draghonite/reactivities_client/${CI_BUILD_NUMBER}/${DEPLOY_ENV}/${PACKAGE_NAME}"
     }
     stages {
         stage('Download Artifact') {
