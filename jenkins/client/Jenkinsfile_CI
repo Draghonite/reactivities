@@ -36,8 +36,9 @@ pipeline {
         SONAR_PROJECT_BASE_PATH = './src/client-app'
         SONAR_SERVER_ID = 'SonarQubeScanner'
         BUILDS_PATH = '/builds'
-        PACKAGE_NAME = "draghonite-reactivities_client-1.0.${BUILD_NUMBER}-${BUILD_ENV}.zip"
-        PACKAGE_REPO_PATH = "draghonite/reactivities_client/1.0.${BUILD_NUMBER}/${BUILD_ENV}/${PACKAGE_NAME}"
+        BUILD_PREFIX = '1.0'
+        PACKAGE_NAME = "reactivities_client-${BUILD_ENV}-${BUILD_PREFIX}.${BUILD_NUMBER}.zip"
+        PACKAGE_REPO_PATH = "reactivities_client/${BUILD_ENV}/${BUILD_PREFIX}.${BUILD_NUMBER}/${PACKAGE_NAME}"
         PACKAGE_BUILD_PATH = "${BUILDS_PATH}/${PACKAGE_NAME}"
     }
     stages {
