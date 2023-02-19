@@ -3,6 +3,7 @@
 pipeline {
     agent any
     // *** Documentation ***
+    // name: reactivities-client-app-ci
     // descrition: 'Continuous Integration (Build) for the Reactivities client application.'
     // discardOldBuilds: strategy: Log Rotation, maxBuildsToKeep: 10
     // doNotAllowConcurrentBuilds: true
