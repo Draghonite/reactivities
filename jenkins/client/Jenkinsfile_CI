@@ -99,6 +99,7 @@ pipeline {
                     cd ./src/client-app && npm run build && cd ../..
                     cd ./src/API/wwwroot/ && tar -czvf $PACKAGE_BUILD_PATH .
                 '''
+                input message="Testing done?"
                 archiveArtifact([
                     ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
                     ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}",
