@@ -6,7 +6,7 @@ pipeline {
     // descrition: 'Continuous Integration (Build) for the Reactivities client application.'
     // discardOldBuilds: strategy: Log Rotation, maxBuildsToKeep: 10
     // doNotAllowConcurrentBuilds: true
-    parameters([
+    parameters {
         choice(
             name: 'BUILD_ENV',
             choices: ['dev','qa'],
@@ -27,7 +27,7 @@ pipeline {
             choices: ['Yes','No'],
             description: 'Whether to package the artifact(s).',
         )
-    ])
+    }
     environment {
         CI = 'false' // TODO: set to true, false for now -- else builds fail due to client build warnings
         APP_NAME = 'reactivities'
