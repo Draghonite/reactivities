@@ -5,7 +5,7 @@ pipeline {
             name: 'DEPLOY_ENV',
             choices: ['dev','qa','prod'],
             description: 'Environment for which to deploy.',
-        ),
+        )
         choice(
             name: 'RUN_PACKAGE_DOWNLOAD',
             choices: ['Yes','No'],

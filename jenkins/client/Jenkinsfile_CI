@@ -11,17 +11,17 @@ pipeline {
             name: 'BUILD_ENV',
             choices: ['dev','qa'],
             description: 'Environment for which to build and package the solution.',
-        ),
+        )
         choice(
             name: 'RUN_BUILD',
             choices: ['Yes','No'],
             description: 'Whether to perform the build',
-        ),
+        )
         choice(
             name: 'RUN_SONAR',
             choices: ['Yes','No'],
             description: 'Whether to run SonarQube Scanner and Quality Gate stages.',
-        ),
+        )
         choice(
             name: 'RUN_PACKAGE',
             choices: ['Yes','No'],
