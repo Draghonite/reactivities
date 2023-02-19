@@ -2,6 +2,7 @@
 
 pipeline {
     agent any
+    // *** Documentation ***
     // descrition: 'Continuous Integration (Build) for the Reactivities client application.'
     // discardOldBuilds: strategy: Log Rotation, maxBuildsToKeep: 10
     // doNotAllowConcurrentBuilds: true
@@ -31,13 +32,14 @@ pipeline {
     // ])
     environment {
         CI = 'false' // TODO: set to true, false for now -- else builds fail due to client build warnings
-        SONAR_PROJECT_KEY = 'Reactivities-Client-App'
-        SONAR_PROJECT_BASE_PATH = './src/client-app'
-        PACKAGE_NAME = 'reactivities_client'
-        PACKAGE_REPO_PATH = 'libs-release-local'
-        BUILD_PREFIX = '1.0'
         BUILDS_PATH = '/builds'
+        APP_NAME = 'reactivities_client'
+        PACKAGE_NAME = "${APP_NAME}-${BUILD_ENV}-1.0.${BUILD_NUMBER}.zip"
+        PACKAGE_BUILD_PATH = "${BUILDS_PATH}/${PACKAGE_NAME}"
+        SONAR_PROJECT_KEY = 'Reactivities-Client-App'
         SONAR_SERVER_ID = 'SonarQubeScanner'
+        SONAR_PROJECT_BASE_PATH = './src/client-app'
+        PACKAGE_REPO_PATH = "${APP_NAME}-${BUILD_ENV}/${PACKAGE_NAME}"
     }
     stages {
         stage('Build and Unit Test') {
@@ -96,17 +98,13 @@ pipeline {
                 sh '''
                     mkdir -p $BUILDS_PATH
                     cd ./src/client-app && npm run build && cd ../..
-                    cd ./src/API/wwwroot/ && tar -czvf $BUILDS_PATH/$PACKAGE_NAME-$BUILD_ENV-$BUILD_NUMBER.zip .
+                    cd ./src/API/wwwroot/ && tar -czvf $PACKAGE_NAME .
                 '''
                 archiveArtifact([
                     ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
                     ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}",
-                    PACKAGE_PATH: "$BUILDS_PATH/${PACKAGE_NAME}-${BUILD_ENV}-${BUILD_NUMBER}.zip",
-                    PACKAGE_NAME: "${PACKAGE_NAME}",
-                    BUILD_ENV: "${BUILD_ENV}",
-                    BUILD_PREFIX: "${BUILD_PREFIX}",
-                    BUILD_NUMBER: "${BUILD_NUMBER}",
-                    REPO: "${PACKAGE_REPO_PATH}"
+                    PACKAGE_BUILD_PATH: "${PACKAGE_BUILD_PATH}",
+                    PACKAGE_REPO_PATH: "${PACKAGE_REPO_PATH}"
                 ])
                 cleanDirectory([ DIRECTORY: "${BUILDS_PATH}" ])
             }
