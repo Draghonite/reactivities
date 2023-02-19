@@ -36,6 +36,11 @@ pipeline {
             when {
                 expression { RUN_PACKAGE_DOWNLOAD == 'Yes' }
             }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                }
+            }
             steps {
                 sh "mkdir -p ${PACKAGES_PATH}"
                 downloadArtifact([
