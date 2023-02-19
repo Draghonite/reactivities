@@ -34,7 +34,7 @@ pipeline {
     stages {
         stage('Download Artifact') {
             when {
-                expression { RUN_PACKAGE_DOWNLOAD == 'Yes' }
+                expression { RUN_PACKAGE_DOWNLOAD == 'Yes' && CI_BUILD_NUMBER != '' }
             }
             agent {
                 docker {
