@@ -22,7 +22,7 @@ pipeline {
     stages {
         stage('Stage 1') {
             steps {
-                sh "TODO: build out CD flow"
+                sh "echo 'TODO: build out CD flow'"
             }
         }
     }
