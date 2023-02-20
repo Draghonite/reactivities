@@ -25,7 +25,7 @@ pipeline {
             description: 'Whether to run SonarQube Scanner and Quality Gate stages.',
         )
         choice(
-            name: 'RUN_PACKAGE',
+            name: 'RUN_PACKAGE_ARCHIVE',
             choices: ['Yes','No'],
             description: 'Whether to package the artifact(s).',
         )
@@ -86,7 +86,7 @@ pipeline {
         }
         stage('Package') {
             when {
-                expression { RUN_PACKAGE == 'Yes' }
+                expression { RUN_PACKAGE_ARCHIVE == 'Yes' }
             }
             agent {
                 docker {
