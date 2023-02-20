@@ -38,7 +38,7 @@ pipeline {
         PACKAGE_REPO_PATH = "reactivities/client/${DEPLOY_ENV}/${PACKAGE_NAME}"
     }
     stages {
-        stage('Download and Verify Artifact') {
+        stage('Download Artifact') {
             when {
                 expression { RUN_PACKAGE_DOWNLOAD == 'Yes' && CI_BUILD_NUMBER != '' }
             }
