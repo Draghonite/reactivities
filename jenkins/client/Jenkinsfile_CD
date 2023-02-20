@@ -60,7 +60,7 @@ pipeline {
         }
         stage('Verify Artifact') {
             when {
-                expression { RUN_PACKAGE_DOWNLOAD == 'Yes' && RUN_PACKAGE_VERIFY != '' }
+                expression { RUN_PACKAGE_DOWNLOAD == 'Yes' && CI_BUILD_NUMBER != '' && RUN_PACKAGE_VERIFY == 'Yes'}
             }
             agent {
                 docker {
