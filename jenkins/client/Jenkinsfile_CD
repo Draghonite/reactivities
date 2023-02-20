@@ -70,7 +70,7 @@ pipeline {
                     ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
                     ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}",
                     PACKAGES_PATH: "${PACKAGES_PATH}",
-                    PACKAGE_REPO_PATH: "${PACKAGE_REPO_PATH}"
+                    PACKAGE_REPO_PATH: "${PACKAGE_REPO_PATH}",
                     PACKAGE_NAME: "${PACKAGE_NAME}"
                 ])
             }
