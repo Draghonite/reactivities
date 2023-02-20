@@ -19,6 +19,11 @@ pipeline {
             choices: ['Yes','No'],
             description: 'Whether to download the artifact(s).',
         )
+        choice(
+            name: 'RUN_PACKAGE_VERIFY',
+            choices: ['Yes','No'],
+            description: 'Whether to verify the integrity of the artifact(s).',
+        )
         string(
             name: 'CI_BUILD_NUMBER',
             description: 'Version of the package to deploy.  Same as the prefix + CI build number (e.g. "1.0.XXX").'
@@ -28,7 +33,7 @@ pipeline {
         APP_NAME = 'reactivities'
         PACKAGES_PATH = '/packages'
         // TODO: ensure if prod is selected, use 'qa' instead -- add a way to translate between DEPLOY_ENV and actual BUILD_ENV
-        PACKAGE_NAME = "reactivities-client-${DEPLOY_ENV}-${CI_BUILD_NUMBER}.tar.zip"
+        PACKAGE_NAME = "reactivities-client-${DEPLOY_ENV}-${CI_BUILD_NUMBER}.tar.gz"
         PACKAGE_REPO_PATH = "reactivities/client/${DEPLOY_ENV}/${PACKAGE_NAME}"
     }
     stages {
@@ -49,7 +54,24 @@ pipeline {
                     PACKAGES_PATH: "${PACKAGES_PATH}",
                     PACKAGE_REPO_PATH: "${PACKAGE_REPO_PATH}"
                 ])
-                input message: 'Are we done yet?'
+            }
+        }
+        stage('Verify Artifact') {
+            when {
+                expression { RUN_PACKAGE_DOWNLOAD == 'Yes' && RUN_PACKAGE_VERIFY == 'Yes' }
+            }
+            agent {
+                docker {
+                    image 'node:16-alpine'
+                }
+            }
+            steps {
+                verifyArtifact([
+                    ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
+                    ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}",
+                    PACKAGES_PATH: "${PACKAGES_PATH}",
+                    PACKAGE_REPO_PATH: "${PACKAGE_REPO_PATH}"
+                ])
             }
         }
     }
