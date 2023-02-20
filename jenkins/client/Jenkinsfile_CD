@@ -77,7 +77,7 @@ pipeline {
                 expression { RUN_PACKAGE_DOWNLOAD == 'Yes' && RUN_DEPLOYMENT == 'Yes' }
             }
             steps {
-                sh "TODO: Deploy the ${BUILD_ENV} build to ${DEPLOY_ENV}."
+                sh "echo TODO: Deploy the ${BUILD_ENV} build to ${DEPLOY_ENV}."
             }
         }
     }
