@@ -1,7 +1,11 @@
 @Library("jenkins-library") _
 
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:16-alpine'
+        }
+    }
     // *** Documentation ***
     // name: reactivities-client-app-cd
     // descrition: 'Continuous Delivery for the Reactivities client application.'
@@ -24,6 +28,11 @@ pipeline {
             choices: ['Yes','No'],
             description: 'Whether to verify integrity of the artifact(s).',
         )
+        choice(
+            name: 'RUN_DEPLOYMENT',
+            choices: ['Yes','No'],
+            description: 'Whether to perform the deployment',
+        )
         string(
             name: 'CI_BUILD_NUMBER',
             description: 'Version of the package to deploy.  Same as the prefix + CI build number (e.g. "1.0.XXX").'
@@ -31,20 +40,15 @@ pipeline {
     }
     environment {
         APP_NAME = 'reactivities'
-        // TODO: ensure if prod is selected, use 'qa' instead -- add a way to translate between DEPLOY_ENV and actual BUILD_ENV
-        BUILD_ENV = ""
-        PACKAGE_NAME = "reactivities-client-${DEPLOY_ENV}-${CI_BUILD_NUMBER}.tar.gz"
-        PACKAGE_REPO_PATH = "reactivities/client/${DEPLOY_ENV}/${PACKAGE_NAME}"
+        // ensure if 'prod' is the intended deployment environment, use the 'qa' build
+        BUILD_ENV = "${ DEPLOY_ENV ==  'prod' ? 'qa' : DEPLOY_ENV }"
+        PACKAGE_NAME = "reactivities-client-${BUILD_ENV}-${CI_BUILD_NUMBER}.tar.gz"
+        PACKAGE_REPO_PATH = "reactivities/client/${BUILD_ENV}/${PACKAGE_NAME}"
     }
     stages {
         stage('Download Artifact') {
             when {
                 expression { RUN_PACKAGE_DOWNLOAD == 'Yes' && CI_BUILD_NUMBER != '' }
-            }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                }
             }
             steps {
                 downloadArtifact([
@@ -59,11 +63,6 @@ pipeline {
             when {
                 expression { RUN_PACKAGE_DOWNLOAD == 'Yes' && CI_BUILD_NUMBER != '' && RUN_PACKAGE_VERIFY == 'Yes'}
             }
-            agent {
-                docker {
-                    image 'node:16-alpine'
-                }
-            }
             steps {
                 verifyArtifact([
                     ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
@@ -71,6 +70,14 @@ pipeline {
                     PACKAGE_REPO_PATH: "${PACKAGE_REPO_PATH}",
                     PACKAGE_NAME: "${PACKAGE_NAME}"
                 ])
+            }
+        }
+        stage('Deploy') {
+            when {
+                expression { RUN_PACKAGE_DOWNLOAD == 'Yes' && RUN_DEPLOYMENT == 'Yes' }
+            }
+            steps {
+                sh "TODO: Deploy the ${BUILD_ENV} build to ${DEPLOY_ENV}."
             }
         }
     }
