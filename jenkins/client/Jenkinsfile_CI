@@ -35,7 +35,7 @@ pipeline {
         SONAR_PROJECT_KEY = 'Reactivities-Client-App'
         SONAR_PROJECT_BASE_PATH = './src/client-app'
         SONAR_SERVER_ID = 'SonarQubeScanner'
-        BUILDS_PATH = '/builds'
+        BUILDS_PATH = './builds'
         BUILD_PREFIX = '1.0'
         PACKAGE_NAME = "reactivities-client-${BUILD_ENV}-${BUILD_PREFIX}.${BUILD_NUMBER}.tar.gz"
         PACKAGE_REPO_PATH = "reactivities/client/${BUILD_ENV}/${PACKAGE_NAME}"
