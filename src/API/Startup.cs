@@ -3,6 +3,7 @@ using API.Middleware;
 using Application.Activities;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace API
@@ -33,6 +34,9 @@ namespace API
         {
             app.UseMiddleware<ExceptionMiddleware>();
             
+            app.UseForwardedHeaders(new ForwardedHeadersOptions{
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
             app.UseXContentTypeOptions();
             app.UseReferrerPolicy(opt => opt.NoReferrer());
             app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
@@ -58,9 +62,8 @@ namespace API
                     context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000");
                     await next.Invoke();
                 });
+                app.UseHttpsRedirection();
             }
-
-            // app.UseHttpsRedirection();
 
             app.UseRouting();
 

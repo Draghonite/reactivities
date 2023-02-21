@@ -7,7 +7,7 @@ pipeline {
     // descrition: 'Continuous Integration (Build) for the Reactivities client application.'
     // discardOldBuilds: strategy: Log Rotation, maxBuildsToKeep: 10
     // doNotAllowConcurrentBuilds: true
-    // server env vars: ARTIFACTORY_CREDS_ID, ARTIFACTORY_CREDS_ID
+    // server env vars: ARTIFACTORY_CREDS_ID, ARTIFACTORY_SERVER
     parameters {
         choice(
             name: 'BUILD_ENV',
