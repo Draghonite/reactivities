@@ -39,7 +39,6 @@ pipeline {
         )
     }
     environment {
-        APP_NAME = 'reactivities'
         // ensure if 'prod' is the intended deployment environment, use the 'qa' build
         BUILD_ENV = "${ DEPLOY_ENV ==  'prod' ? 'qa' : DEPLOY_ENV }"
         PACKAGE_NAME = "reactivities-client-${BUILD_ENV}-${CI_BUILD_NUMBER}.tar.gz"
