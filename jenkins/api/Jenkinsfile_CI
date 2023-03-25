@@ -106,9 +106,8 @@ pipeline {
                     echo Packaging started
                     mkdir -p $RELEASES_PATH
                     dotnet publish src/API/API.csproj -r linux-x64 -c Release -o $RELEASES_PATH
-                    #cd $RELEASES_PATH && tar -czvf $PACKAGE_RELEASE_PATH --exclude $PACKAGE_NAME .
+                    cd $RELEASES_PATH && tar -czvf $PACKAGE_RELEASE_PATH --exclude $PACKAGE_NAME .
                 '''
-                input message: "Done?"
                 archiveArtifact([
                     ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
                     ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}",
