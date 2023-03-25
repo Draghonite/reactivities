@@ -33,7 +33,7 @@ pipeline {
     environment {
         CI = 'false' // TODO: set to true, false for now
         SONAR_PROJECT_KEY = 'Reactivities-API'
-        SONAR_PROJECT_BASE_PATH = './src/'
+        SONAR_PROJECT_BASE_PATH = './'
         SONAR_EXCLUSIONS = '**/client-app/**'
         SONAR_SERVER_ID = 'SonarQubeScanner'
         BUILDS_PATH = '/builds'
