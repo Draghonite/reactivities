@@ -7,8 +7,8 @@ pipeline {
         }
     }
     // *** Documentation ***
-    // name: reactivities-client-app-cd
-    // descrition: 'Continuous Delivery for the Reactivities client application.'
+    // name: reactivities-api-cd
+    // descrition: 'Continuous Delivery for the Reactivities API.'
     // discardOldBuilds: strategy: Log Rotation, maxBuildsToKeep: 10
     // doNotAllowConcurrentBuilds: true
     // server env vars: ARTIFACTORY_CREDS_ID, ARTIFACTORY_SERVER
@@ -41,8 +41,8 @@ pipeline {
     environment {
         // ensure if 'prod' is the intended deployment environment, use the 'qa' build
         BUILD_ENV = "${ DEPLOY_ENV ==  'prod' ? 'qa' : DEPLOY_ENV }"
-        PACKAGE_NAME = "reactivities-client-${BUILD_ENV}-${CI_BUILD_NUMBER}.tar.gz"
-        PACKAGE_REPO_PATH = "reactivities/client/${BUILD_ENV}/${PACKAGE_NAME}"
+        PACKAGE_NAME = "reactivities-api-${BUILD_ENV}-${CI_BUILD_NUMBER}.tar.gz"
+        PACKAGE_REPO_PATH = "reactivities/api/${BUILD_ENV}/${PACKAGE_NAME}"
     }
     stages {
         stage('Download Artifact') {

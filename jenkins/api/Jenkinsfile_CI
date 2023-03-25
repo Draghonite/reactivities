@@ -4,7 +4,7 @@ pipeline {
     agent any
     // *** Documentation ***
     // name: reactivities-api-ci
-    // descrition: 'Continuous Integration (Build) for the Reactivities server application.'
+    // descrition: 'Continuous Integration (Build) for the Reactivities API.'
     // discardOldBuilds: strategy: Log Rotation, maxBuildsToKeep: 10
     // doNotAllowConcurrentBuilds: true
     // server env vars: ARTIFACTORY_CREDS_ID, ARTIFACTORY_SERVER
@@ -36,11 +36,12 @@ pipeline {
         SONAR_PROJECT_BASE_PATH = './'
         SONAR_EXCLUSIONS = '**/client-app/**'
         SONAR_SERVER_ID = 'SonarQubeScanner'
-        BUILDS_PATH = '/builds'
+        BUILDS_PATH = '/app/builds'
+        RELEASES_PATH = '/app/releases'
         BUILD_PREFIX = '1.0'
         PACKAGE_NAME = "reactivities-api-${BUILD_ENV}-${BUILD_PREFIX}.${BUILD_NUMBER}.tar.gz"
         PACKAGE_REPO_PATH = "reactivities/api/${BUILD_ENV}/${PACKAGE_NAME}"
-        PACKAGE_BUILD_PATH = "${BUILDS_PATH}/${PACKAGE_NAME}"
+        PACKAGE_RELEASE_PATH = "${RELEASES_PATH}/${PACKAGE_NAME}"
     }
     stages {
         stage('Build and Unit Test') {
@@ -57,7 +58,8 @@ pipeline {
                     echo Restored started
                     dotnet restore src/API/API.csproj
                     echo Build started
-                    dotnet build src/API/API.csproj -c Release -o /app/build
+                    mkdir -p $BUILDS_PATH
+                    dotnet build src/API/API.csproj -c Release -o $BUILDS_PATH
                     echo Test started
                     dotnet test -c Release --logger trx --results-directory ./testresults
                 '''
@@ -101,17 +103,18 @@ pipeline {
             steps {
                 sh '''
                     echo Packaging started
-                    mkdir -p $BUILDS_PATH
-                    dotnet publish src/API/API.csproj -r linux-x64 -c Release -o $BUILDS_PATH
-                    cd $BUILDS_PATH && tar -czvf $PACKAGE_BUILD_PATH .
+                    mkdir -p $RELEASES_PATH
+                    dotnet publish src/API/API.csproj -r linux-x64 -c Release -o $RELEASES_PATH
+                    cd $RELEASES_PATH && tar -czvf $PACKAGE_RELEASE_PATH --exclude $PACKAGE_NAME .
                 '''
                 archiveArtifact([
                     ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
                     ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}",
-                    PACKAGE_BUILD_PATH: "${PACKAGE_BUILD_PATH}",
+                    PACKAGE_BUILD_PATH: "${PACKAGE_RELEASE_PATH}",
                     PACKAGE_REPO_PATH: "${PACKAGE_REPO_PATH}"
                 ])
                 cleanDirectory([ DIRECTORY: "${BUILDS_PATH}" ])
+                cleanDirectory([ DIRECTORY: "${RELEASES_PATH}" ])
             }
         }
     }
