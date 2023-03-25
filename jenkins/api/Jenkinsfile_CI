@@ -21,7 +21,7 @@ pipeline {
         )
         choice(
             name: 'RUN_SONAR',
-            choices: ['No','Yes'],
+            choices: ['Yes','No'],
             description: 'Whether to run SonarQube Scanner and Quality Gate stages.',
         )
         choice(
@@ -34,7 +34,7 @@ pipeline {
         CI = 'false' // TODO: set to true, false for now
         SONAR_PROJECT_KEY = 'Reactivities-API'
         SONAR_PROJECT_BASE_PATH = './src/'
-        SONAR_EXCLUSIONS = './src/client-app'
+        SONAR_EXCLUSIONS = '**/client-app/**'
         SONAR_SERVER_ID = 'SonarQubeScanner'
         BUILDS_PATH = '/builds'
         BUILD_PREFIX = '1.0'
@@ -61,6 +61,45 @@ pipeline {
                     echo Test started
                     dotnet test -c Release --logger trx --results-directory ./testresults
                 '''
+            }
+        }
+        stage('Sonar Scanner') {
+            when {
+                expression { RUN_SONAR == 'Yes' }
+            }
+            agent {
+                docker {
+                    image 'sonarsource/sonar-scanner-cli'
+                }
+            }
+            steps {
+                sonarScan([
+                    SONAR_SERVER_ID: "${SONAR_SERVER_ID}",
+                    SONAR_PROJECT_BASE_PATH: "${SONAR_PROJECT_BASE_PATH}",
+                    SONAR_PROJECT_KEY: "${SONAR_PROJECT_KEY}",
+                    SONAR_EXCLUSIONS: "${SONAR_EXCLUSIONS}"
+                ])
+            }
+        }
+        stage("Quality Gate") {
+            when {
+                expression { RUN_SONAR == 'Yes' }
+            }
+            steps {
+                awaitQualityGate()
+            }
+        }
+        stage('Package') {
+            when {
+                expression { RUN_PACKAGE_ARCHIVE == 'Yes' }
+            }
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/dotnet/sdk:6.0'
+                }
+            }
+            steps {
+
             }
         }
     }

@@ -21,7 +21,7 @@ pipeline {
         )
         choice(
             name: 'RUN_SONAR',
-            choices: ['No','Yes'],
+            choices: ['Yes','No'],
             description: 'Whether to run SonarQube Scanner and Quality Gate stages.',
         )
         choice(
