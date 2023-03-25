@@ -16,11 +16,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws --version
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-<<<<<<< HEAD
-      # - REPOSITORY_URI=904164939197.dkr.ecr.us-east-1.amazonaws.com/reactivities-repository
-=======
       # - REPOSITORY_URI=904164939197.dkr.ecr.us-east-1.amazonaws.com/reactivities
->>>>>>> fd0229ddad954fa4b41a09fbea8a80989f59df82
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
       

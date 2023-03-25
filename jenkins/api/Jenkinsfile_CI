@@ -1,0 +1,67 @@
+@Library("jenkins-library") _
+
+pipeline {
+    agent any
+    // *** Documentation ***
+    // name: reactivities-api-ci
+    // descrition: 'Continuous Integration (Build) for the Reactivities server application.'
+    // discardOldBuilds: strategy: Log Rotation, maxBuildsToKeep: 10
+    // doNotAllowConcurrentBuilds: true
+    // server env vars: ARTIFACTORY_CREDS_ID, ARTIFACTORY_SERVER
+    parameters {
+        choice(
+            name: 'BUILD_ENV',
+            choices: ['dev','qa'],
+            description: 'Environment for which to build and package the solution.',
+        )
+        choice(
+            name: 'RUN_BUILD',
+            choices: ['Yes','No'],
+            description: 'Whether to perform the build',
+        )
+        choice(
+            name: 'RUN_SONAR',
+            choices: ['No','Yes'],
+            description: 'Whether to run SonarQube Scanner and Quality Gate stages.',
+        )
+        choice(
+            name: 'RUN_PACKAGE_ARCHIVE',
+            choices: ['Yes','No'],
+            description: 'Whether to package the artifact(s).',
+        )
+    }
+    environment {
+        CI = 'false' // TODO: set to true, false for now
+        SONAR_PROJECT_KEY = 'Reactivities-API'
+        SONAR_PROJECT_BASE_PATH = './src/'
+        SONAR_EXCLUSIONS = './src/client-app'
+        SONAR_SERVER_ID = 'SonarQubeScanner'
+        BUILDS_PATH = '/builds'
+        BUILD_PREFIX = '1.0'
+        PACKAGE_NAME = "reactivities-api-${BUILD_ENV}-${BUILD_PREFIX}.${BUILD_NUMBER}.tar.gz"
+        PACKAGE_REPO_PATH = "reactivities/api/${BUILD_ENV}/${PACKAGE_NAME}"
+        PACKAGE_BUILD_PATH = "${BUILDS_PATH}/${PACKAGE_NAME}"
+    }
+    stages {
+        stage('Build and Unit Test') {
+            when {
+                expression { RUN_BUILD == 'Yes' }
+            }
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/dotnet/sdk:6.0'
+                }
+            }
+            steps {
+                sh '''
+                    echo Restored started
+                    dotnet restore src/API/API.csproj
+                    echo Build started
+                    dotnet build src/API/API.csproj -c Release -o /app/build
+                    echo Test started
+                    dotnet test -c Release --logger trx --results-directory ./testresults
+                '''
+            }
+        }
+    }
+}
