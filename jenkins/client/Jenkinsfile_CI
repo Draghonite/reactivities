@@ -98,6 +98,7 @@ pipeline {
                     mkdir -p $BUILDS_PATH
                     cd ./src/client-app && npm run build && cd ../..
                     cd ./src/API/wwwroot/ && tar -czvf $PACKAGE_BUILD_PATH .
+                    apk add curl
                 '''
                 archiveArtifact([
                     ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
