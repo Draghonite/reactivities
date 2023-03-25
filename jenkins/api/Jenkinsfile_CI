@@ -38,10 +38,11 @@ pipeline {
         SONAR_SERVER_ID = 'SonarQubeScanner'
         BUILDS_PATH = '/app/builds'
         RELEASES_PATH = '/app/releases'
+        RELEASE_PATH = '/app/'
         BUILD_PREFIX = '1.0'
         PACKAGE_NAME = "reactivities-api-${BUILD_ENV}-${BUILD_PREFIX}.${BUILD_NUMBER}.tar.gz"
         PACKAGE_REPO_PATH = "reactivities/api/${BUILD_ENV}/${PACKAGE_NAME}"
-        PACKAGE_RELEASE_PATH = "${RELEASES_PATH}/${PACKAGE_NAME}"
+        PACKAGE_RELEASE_PATH = "${RELEASE_PATH}/${PACKAGE_NAME}"
     }
     stages {
         stage('Build and Unit Test') {
