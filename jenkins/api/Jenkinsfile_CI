@@ -100,8 +100,17 @@ pipeline {
             }
             steps {
                 sh '''
-                    echo Packaging
+                    echo Packaging started
+                    mkdir -p $BUILDS_PATH
+                    dotnet publish src/API/API.csproj -r linux-x64 -c Release -o $PACKAGE_BUILD_PATH
                 '''
+                archiveArtifact([
+                    ARTIFACTORY_CREDS_ID: "${ARTIFACTORY_CREDS_ID}",
+                    ARTIFACTORY_SERVER: "${ARTIFACTORY_SERVER}",
+                    PACKAGE_BUILD_PATH: "${PACKAGE_BUILD_PATH}",
+                    PACKAGE_REPO_PATH: "${PACKAGE_REPO_PATH}"
+                ])
+                cleanDirectory([ DIRECTORY: "${BUILDS_PATH}" ])
             }
         }
     }
