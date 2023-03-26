@@ -24,3 +24,4 @@ Thanks to:
 * https://unix.stackexchange.com/questions/458199/how-to-accept-yes-from-script-are-you-sure-you-want-to-continue-connecting-yes
 * https://stackoverflow.com/questions/44377238/use-ssh-credentials-in-jenkins-pipeline-with-ssh-scp-or-sftp
 * https://www.cyberciti.biz/faq/unix-linux-execute-command-using-ssh/
+* https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-7.0&tabs=linux-ubuntu
