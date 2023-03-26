@@ -102,6 +102,8 @@ pipeline {
                         echo Deploying $PACKAGE_NAME build $BUILD_ENV to $DEPLOY_ENV.
                         rm -rf ./artifacts && mkdir ./artifacts
                     '''
+                    // TODO: replace the environment values in /etc/systemd/system/kestrel-reactivities.service
+                    // ...see sed tool, maybe
                     dir('./artifacts') {
                         unstash 'artifactstash'
                         sh '''
@@ -110,11 +112,12 @@ pipeline {
                             ssh -i $KEY_FILE -o StrictHostKeyChecking=no $USERNAME@$HOST_SERVER "
                                 sudo tar -xzf $PACKAGE_NAME -C /var/www/html/api; 
                                 sudo chown -R www-data:www-data /var/www/html/api;
-                                export ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT;
-                                export Cloudinary__ApiKey=$CLOUDINARY_API_KEY;
-                                export Cloudinary__ApiSecret=$CLOUDINARY_API_SECRET;
-                                export Cloudinary__CloudName=$CLOUDINARY_CLOUD_NAME;
-                                export DATABASE_URL=$DATABASE_URL;
+
+                                sed -i 'i/Environment=ASPNETCORE_ENVIRONMENT=.*/Environment=ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT/g' /etc/systemd/system/kestrel-reactivities.service;
+                                sed -i 'i/Environment=Cloudinary__ApiKey=.*/Environment=Cloudinary__ApiKey=$CLOUDINARY_API_KEY/g' /etc/systemd/system/kestrel-reactivities.service
+                                sed -i 'i/Environment=Cloudinary__ApiSecret=.*/Environment=Cloudinary__ApiSecret=$CLOUDINARY_API_SECRET/g' /etc/systemd/system/kestrel-reactivities.service
+                                sed -i 'i/Environment=Cloudinary__CloudName=.*/Environment=Cloudinary__CloudName=$CLOUDINARY_CLOUD_NAME/g' /etc/systemd/system/kestrel-reactivities.service
+                                sed -i 'i/Environment=DATABASE_URL=.*/Environment=DATABASE_URL=$DATABASE_URL/g' /etc/systemd/system/kestrel-reactivities.service
                             "
                         '''
                     }
