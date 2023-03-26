@@ -41,22 +41,22 @@ pipeline {
             name: 'HOST_SERVER',
             description: 'IP Adress or DNS hostname of the server to which to deploy via SSH.'
         )
-        string {
+        string(
             name: 'CLOUDINARY_API_KEY',
             description: 'Cloudinary api key.'
-        }
-        string {
+        )
+        string(
             name: 'CLOUDINARY_API_SECRET',
             description: 'Cloudinary api secret.'
-        }
-        string {
+        )
+        string(
             name: 'CLOUDINARY_CLOUD_NAME',
             description: 'Cloudinary api cloud name.'
-        }
-        string {
+        )
+        string(
             name: 'DATABASE_URL',
             description: 'Database URL.'
-        }
+        )
     }
     environment {
         // ensure if 'prod' is the intended deployment environment, use the 'qa' build
