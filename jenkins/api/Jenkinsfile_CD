@@ -41,12 +41,29 @@ pipeline {
             name: 'HOST_SERVER',
             description: 'IP Adress or DNS hostname of the server to which to deploy via SSH.'
         )
+        string {
+            name: 'CLOUDINARY_API_KEY',
+            description: 'Cloudinary api key.'
+        }
+        string {
+            name: 'CLOUDINARY_API_SECRET',
+            description: 'Cloudinary api secret.'
+        }
+        string {
+            name: 'CLOUDINARY_CLOUD_NAME',
+            description: 'Cloudinary api cloud name.'
+        }
+        string {
+            name: 'DATABASE_URL',
+            description: 'Database URL.'
+        }
     }
     environment {
         // ensure if 'prod' is the intended deployment environment, use the 'qa' build
         BUILD_ENV = "${ DEPLOY_ENV ==  'prod' ? 'qa' : DEPLOY_ENV }"
         PACKAGE_NAME = "reactivities-api-${BUILD_ENV}-${CI_BUILD_NUMBER}.tar.gz"
         PACKAGE_REPO_PATH = "reactivities/api/${BUILD_ENV}/${PACKAGE_NAME}"
+        ASPNETCORE_ENVIRONMENT = "${ DEPLOY_ENV == 'dev' ? 'Development' : 'Production' }"
     }
     stages {
         stage('Download Artifact') {
@@ -92,7 +109,12 @@ pipeline {
                             scp -i $KEY_FILE -o StrictHostKeyChecking=no $PACKAGE_NAME $USERNAME@$HOST_SERVER:/home/$USERNAME
                             ssh -i $KEY_FILE -o StrictHostKeyChecking=no $USERNAME@$HOST_SERVER "
                                 sudo tar -xzf $PACKAGE_NAME -C /var/www/html/api; 
-                                sudo chown -R www-data:www-data /var/www/html/api
+                                sudo chown -R www-data:www-data /var/www/html/api;
+                                export ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT;
+                                export Cloudinary__ApiKey=$CLOUDINARY_API_KEY;
+                                export Cloudinary__ApiSecret=$CLOUDINARY_API_SECRET;
+                                export Cloudinary__CloudName=$CLOUDINARY_CLOUD_NAME;
+                                export DATABASE_URL=$DATABASE_URL;
                             "
                         '''
                     }
