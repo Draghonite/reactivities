@@ -96,7 +96,8 @@ pipeline {
                         sh '''
                             apk add openssh
                             scp -i $KEY_FILE -o StrictHostKeyChecking=no $PACKAGE_NAME $USERNAME@$HOST_SERVER
-                            ssh -i $KEY_FILE -o StrictHostKeyChecking=no $USERNAME@$HOST_SERVER "tar -xzf - -C ~/"
+                            # TOOD: restart nginx service
+                            ssh -i $KEY_FILE -o StrictHostKeyChecking=no $USERNAME@$HOST_SERVER "tar -xzf $PACKAGE_NAME -C /var/www/html/api"
                         '''
                     }
                 }
