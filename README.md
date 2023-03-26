@@ -21,3 +21,6 @@
 
 Thanks to: 
 * [Udemy: Complete guide to building an app with .Net Core and React](https://www.udemy.com/course/complete-guide-to-building-an-app-with-net-core-and-react)
+* https://unix.stackexchange.com/questions/458199/how-to-accept-yes-from-script-are-you-sure-you-want-to-continue-connecting-yes
+* https://stackoverflow.com/questions/44377238/use-ssh-credentials-in-jenkins-pipeline-with-ssh-scp-or-sftp
+* https://www.cyberciti.biz/faq/unix-linux-execute-command-using-ssh/
