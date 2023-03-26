@@ -95,8 +95,8 @@ pipeline {
                         unstash 'artifactstash'
                         sh '''
                             apk add openssh
-                            #tar -czf - ./* | ssh -i $KEY_FILE -o StrictHostKeyChecking=no $USERNAME@$HOST_SERVER "tar -xzf - -C ~/"
-                            scp -i $KEY_FILE -o StrictHostKeyChecking=no $PACKAGE_NAME $USERNAME@$HOST_SERVER:/home/$USERNAME
+                            scp -i $KEY_FILE -o StrictHostKeyChecking=no $PACKAGE_NAME $USERNAME@$HOST_SERVER
+                            ssh -i $KEY_FILE -o StrictHostKeyChecking=no $USERNAME@$HOST_SERVER "tar -xzf - -C ~/"
                         '''
                     }
                 }
