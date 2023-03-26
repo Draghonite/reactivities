@@ -83,20 +83,14 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: "LIGHTSAIL_SSH_USER_KEY", keyFileVariable: 'KEY_FILE', usernameVariable: 'USERNAME')]) {
                     sh '''
                         echo Deploying $PACKAGE_NAME build $BUILD_ENV to $DEPLOY_ENV.
-                        apk add openssh
                         rm -rf ./artifacts && mkdir ./artifacts
                     '''
-                    
-                    //     TODO: deploy
-                    //      1. Done - download + verify the release
-                    //      2. connect to the server + unzip files -- use a command script???
-
                     dir('./artifacts') {
                         unstash 'artifactstash'
                         sh '''
                             apk add openssh
                             scp -i $KEY_FILE -o StrictHostKeyChecking=no $PACKAGE_NAME $USERNAME@$HOST_SERVER
-                            # TOOD: restart nginx service
+                            # TOOD: nginx service need restart?!
                             ssh -i $KEY_FILE -o StrictHostKeyChecking=no $USERNAME@$HOST_SERVER "tar -xzf $PACKAGE_NAME -C /var/www/html/api"
                         '''
                     }
