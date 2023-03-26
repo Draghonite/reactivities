@@ -89,7 +89,7 @@ pipeline {
                         unstash 'artifactstash'
                         sh '''
                             apk add openssh
-                            scp -i $KEY_FILE -o StrictHostKeyChecking=no $PACKAGE_NAME $USERNAME@$HOST_SERVER
+                            scp -i $KEY_FILE -o StrictHostKeyChecking=no $PACKAGE_NAME $USERNAME@$HOST_SERVER:/home/ubuntu
                             # TOOD: nginx service need restart?!
                             ssh -i $KEY_FILE -o StrictHostKeyChecking=no $USERNAME@$HOST_SERVER "tar -xzf $PACKAGE_NAME -C /var/www/html/api"
                         '''
