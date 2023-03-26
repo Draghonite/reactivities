@@ -91,7 +91,7 @@ pipeline {
                             ls
                             apk add openssh
                             scp -i $KEY_FILE -o StrictHostKeyChecking=no $PACKAGE_NAME $USERNAME@$HOST_SERVER:/home/$USERNAME
-                            ssh -i $KEY_FILE -o StrictHostKeyChecking=no $USERNAME@$HOST_SERVER "tar -xzf $PACKAGE_NAME -C /var/www/html/api"
+                            ssh -i $KEY_FILE -o StrictHostKeyChecking=no $USERNAME@$HOST_SERVER "sudo tar -xzf $PACKAGE_NAME -C /var/www/html/api"
                         '''
                     }
                 }
