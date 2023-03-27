@@ -113,7 +113,6 @@ pipeline {
                                 sudo tar -xzf $PACKAGE_NAME -C /var/www/html/api; 
                                 sudo chown -R www-data:www-data /var/www/html/api;
 
-                                # TODO: fails here -- 
                                 sudo sed -i 's/Environment=ASPNETCORE_ENVIRONMENT=.*/Environment=ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT/' /etc/systemd/system/kestrel-reactivities.service;
                                 sudo sed -i 's/Environment=Cloudinary__ApiKey=.*/Environment=Cloudinary__ApiKey=$CLOUDINARY_API_KEY/' /etc/systemd/system/kestrel-reactivities.service;
                                 sudo sed -i 's/Environment=Cloudinary__ApiSecret=.*/Environment=Cloudinary__ApiSecret=$CLOUDINARY_API_SECRET/' /etc/systemd/system/kestrel-reactivities.service;
