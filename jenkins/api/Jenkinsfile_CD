@@ -102,8 +102,6 @@ pipeline {
                         echo Deploying $PACKAGE_NAME build $BUILD_ENV to $DEPLOY_ENV.
                         rm -rf ./artifacts && mkdir ./artifacts
                     '''
-                    // TODO: replace the environment values in /etc/systemd/system/kestrel-reactivities.service
-                    // ...see sed tool, maybe
                     dir('./artifacts') {
                         unstash 'artifactstash'
                         sh '''

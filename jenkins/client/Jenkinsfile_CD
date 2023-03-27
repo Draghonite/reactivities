@@ -37,6 +37,10 @@ pipeline {
             name: 'CI_BUILD_NUMBER',
             description: 'Version of the package to deploy.  Same as the prefix + CI build number (e.g. "1.0.XXX").'
         )
+        string(
+            name: 'HOST_SERVER',
+            description: 'IP Adress or DNS hostname of the server to which to deploy via SSH.'
+        )
     }
     environment {
         // ensure if 'prod' is the intended deployment environment, use the 'qa' build
@@ -73,10 +77,26 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                expression { RUN_PACKAGE_DOWNLOAD == 'Yes' && RUN_DEPLOYMENT == 'Yes' }
+                expression { RUN_PACKAGE_DOWNLOAD == 'Yes' && RUN_DEPLOYMENT == 'Yes' && HOST_SERVER != '' }
             }
             steps {
-                sh "echo TODO: Deploy ${PACKAGE_NAME} build ${BUILD_ENV} to ${DEPLOY_ENV}."
+                withCredentials([sshUserPrivateKey(credentialsId: "LIGHTSAIL_SSH_USER_KEY", keyFileVariable: 'KEY_FILE', usernameVariable: 'USERNAME')]) {
+                    sh '''
+                        echo Deploying $PACKAGE_NAME build $BUILD_ENV to $DEPLOY_ENV.
+                        rm -rf ./artifacts && mkdir ./artifacts
+                    '''
+                    dir('./artifacts') {
+                        unstash 'artifactstash'
+                        sh '''
+                            apk add openssh
+                            scp -i $KEY_FILE -o StrictHostKeyChecking=no $PACKAGE_NAME $USERNAME@$HOST_SERVER:/home/$USERNAME
+                            ssh -i $KEY_FILE -o StrictHostKeyChecking=no $USERNAME@$HOST_SERVER "
+                                sudo tar -xzf $PACKAGE_NAME -C /var/www/html/app; 
+                                sudo chown -R www-data:www-data /var/www/html/app;
+                            "
+                        '''
+                    }
+                }
             }
         }
     }
