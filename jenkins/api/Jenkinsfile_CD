@@ -108,8 +108,9 @@ pipeline {
                             apk add openssh
                             scp -i $KEY_FILE -o StrictHostKeyChecking=no $PACKAGE_NAME $USERNAME@$HOST_SERVER:/home/$USERNAME
                             ssh -i $KEY_FILE -o StrictHostKeyChecking=no $USERNAME@$HOST_SERVER "
-                                sudo tar -xzf $PACKAGE_NAME -C /var/www/html; 
-                                sudo chown -R www-data:www-data /var/www/html;
+                                sudo mkdir -p /var/www/html/reactivities.com/api;
+                                sudo tar -xzf $PACKAGE_NAME -C /var/www/html/reactivities.com/api; 
+                                sudo chown -R www-data:www-data /var/www/html/reactivities.com/api;
 
                                 sudo sed -i 's/Environment=ASPNETCORE_ENVIRONMENT=.*/Environment=ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT/' /etc/systemd/system/kestrel-reactivities.service;
                                 sudo sed -i 's/Environment=Cloudinary__ApiKey=.*/Environment=Cloudinary__ApiKey=$CLOUDINARY_API_KEY/' /etc/systemd/system/kestrel-reactivities.service;
@@ -118,6 +119,7 @@ pipeline {
                                 sudo sed -i 's/Environment=DATABASE_URL=.*/Environment=DATABASE_URL=$DATABASE_URL/' /etc/systemd/system/kestrel-reactivities.service;
                             "
                         '''
+                        // TODO: consider if the service needs to be restarted -- very likely (server-side code + could include environment variable changes)
                     }
                 }
             }
