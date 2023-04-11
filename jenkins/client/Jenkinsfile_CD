@@ -94,9 +94,11 @@ pipeline {
                                 sudo mkdir -p /var/www/reactivities.com/html/client;
                                 sudo tar -xzf $PACKAGE_NAME -C /var/www/reactivities.com/html/client; 
                                 sudo chown -R www-data:www-data /var/www/reactivities.com/html/client;
+
+                                sudo nginx -s reload;
+                                sudo systemctl restart kestrel-reactivities.service;
                             "
                         '''
-                        // TODO: consider if the service needs to be restarted -- unlikely as it's all client-side code, though maybe there's caching involved?!
                     }
                 }
             }
