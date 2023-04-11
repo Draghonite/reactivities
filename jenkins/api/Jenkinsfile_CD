@@ -54,6 +54,10 @@ pipeline {
             description: 'Cloudinary api cloud name.'
         )
         string(
+            name: 'JWT_ISSUER_SIGNING_KEY',
+            description: 'Java Web Token secret signing token value.'
+        )
+        string(
             name: 'DATABASE_URL',
             description: 'Database URL.'
         )
@@ -117,7 +121,8 @@ pipeline {
                                 sudo sed -i 's/Environment=Cloudinary__ApiSecret=.*/Environment=Cloudinary__ApiSecret=$CLOUDINARY_API_SECRET/' /etc/systemd/system/kestrel-reactivities.service;
                                 sudo sed -i 's/Environment=Cloudinary__CloudName=.*/Environment=Cloudinary__CloudName=$CLOUDINARY_CLOUD_NAME/' /etc/systemd/system/kestrel-reactivities.service;
                                 sudo sed -i 's/Environment=DATABASE_URL=.*/Environment=DATABASE_URL=$DATABASE_URL/' /etc/systemd/system/kestrel-reactivities.service;
-                                sudo sed -i 's/127\.0\.0\.1/$HOST_SERVER'
+                                sudo sed -i 's/127\.0\.0\.1/$HOST_SERVER/' /etc/systemd/system/kestrel-reactivities.service;
+                                sudo sed -i 's/JWT_ISSUER_SIGNING_KEY/$JWT_ISSUER_SIGNING_KEY/' /var/www/reactivities.com/html/api/appsettings.json;
 
                                 sudo nginx -s reload;
                                 sudo systemctl restart kestrel-reactivities.service;
