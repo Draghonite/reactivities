@@ -117,6 +117,7 @@ pipeline {
                                 sudo sed -i 's/Environment=Cloudinary__ApiSecret=.*/Environment=Cloudinary__ApiSecret=$CLOUDINARY_API_SECRET/' /etc/systemd/system/kestrel-reactivities.service;
                                 sudo sed -i 's/Environment=Cloudinary__CloudName=.*/Environment=Cloudinary__CloudName=$CLOUDINARY_CLOUD_NAME/' /etc/systemd/system/kestrel-reactivities.service;
                                 sudo sed -i 's/Environment=DATABASE_URL=.*/Environment=DATABASE_URL=$DATABASE_URL/' /etc/systemd/system/kestrel-reactivities.service;
+                                sudo sed -i 's/127\.0\.0\.1/$HOST_SERVER'
 
                                 sudo nginx -s reload;
                                 sudo systemctl restart kestrel-reactivities.service;
