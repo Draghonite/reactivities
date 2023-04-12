@@ -29,7 +29,7 @@ namespace API.Extensions
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
             services.AddDbContext<DataContext>(options => {
                 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
+                Console.WriteLine($"ENV: {env}");
                 string connStr;
 
                 // Depending on if in development or production, use either Heroku-provided
@@ -41,7 +41,7 @@ namespace API.Extensions
                 } else {
                     // Use connection string provided at runtime by hosting environment (AWS Fargate or Heroku).
                     var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-
+                    Console.WriteLine($"Connection URL: {connUrl}");
                     // Parse connection URL to connection string for Npgsql
                     connUrl = connUrl.Replace("postgres://", string.Empty);
                     var pgUserPass = connUrl.Split("@")[0];
@@ -55,7 +55,7 @@ namespace API.Extensions
 
                     connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};SSL Mode=Require;TrustServerCertificate=True";
                 }
-
+                Console.WriteLine($"Connection String: {connStr}");
                 // Whether the connection string came from the local development configuration file
                 // or from the environment variable from Heroku, use it to set up your DbContext.
                 options.UseNpgsql(connStr);
