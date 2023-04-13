@@ -29,20 +29,13 @@ namespace API.Extensions
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
             services.AddDbContext<DataContext>(options => {
                 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                Console.WriteLine($"ENV: {env}");
-                string connStr;
+                // use connection string from 'CONNECTION_STRING' env var if provided or if dev, use app.settings, otherwise deconstruct 'DATABASE_URL' env var
+                string connStr = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
-                // Depending on if in development or production, use either Heroku-provided
-                // connection string, or development connection string from env var.
-                if (env == null || env == "Development")
-                {
-                    // Use connection string from file.
+                if (connStr == null && (env == null || env == "Development")) {
                     connStr = config.GetConnectionString("DefaultConnection");
-                } else {
-                    // Use connection string provided at runtime by hosting environment (AWS Fargate or Heroku).
+                } else if (connStr == null) {
                     var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-                    Console.WriteLine($"Connection URL: {connUrl}");
-                    // Parse connection URL to connection string for Npgsql
                     connUrl = connUrl.Replace("postgres://", string.Empty);
                     var pgUserPass = connUrl.Split("@")[0];
                     var pgHostPortDb = connUrl.Split("@")[1];
@@ -56,8 +49,6 @@ namespace API.Extensions
                     connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};SSL Mode=Require;TrustServerCertificate=True";
                 }
                 Console.WriteLine($"Connection String: {connStr}");
-                // Whether the connection string came from the local development configuration file
-                // or from the environment variable from Heroku, use it to set up your DbContext.
                 options.UseNpgsql(connStr);
             });
             return services;
